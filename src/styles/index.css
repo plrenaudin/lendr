@@ -1,0 +1,21 @@
+@import "./variables.css";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bgColor);
+}
+
+.content {
+  padding: 2rem;
+}
+
+.drawingBuffer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
