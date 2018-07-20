@@ -1,16 +1,41 @@
 <div class="scanner-container">
   <section id="scanner"></section>
-  {data}
+  {#if done}
+    {evaluated}
+  {/if}
 </div>
 
 <script>
   import Quagga from "quagga";
 
+  const SAMPLE_AMOUNT = 20;
+
+  const mostCommonOccurrence = input => {
+    let result,
+      best = -1,
+      lookup = {};
+    for (let i = 0; i < input.length; i++) {
+      if (lookup[input[i]] == undefined) {
+        lookup[input[i]] = 0;
+      }
+      lookup[input[i]]++;
+      if (lookup[input[i]] > best) {
+        best = lookup[input[i]];
+        result = input[i];
+      }
+    }
+    return result;
+  };
+
   export default {
     data: () => ({
-      initiated: false,
-      data: ""
+      done: false,
+      samples: []
     }),
+
+    computed: {
+      evaluated: ({ samples }) => mostCommonOccurrence(samples)
+    },
 
     methods: {
       initScanner() {
@@ -18,6 +43,7 @@
         const scannerEl = document.getElementById("scanner");
         Quagga.init(
           {
+            numOfWorkers: 1, // navigator.hardwareConcurrency || 4,
             inputStream: {
               name: "Live",
               type: "LiveStream",
@@ -28,10 +54,7 @@
                 facingMode: "environment"
               }
             },
-            locate: true,
-            locator: {
-              patchSize: "x-large"
-            },
+            locate: false,
             decoder: {
               readers: ["ean_reader"],
               debug: {
@@ -40,8 +63,7 @@
                 drawScanline: true,
                 showPattern: true
               }
-            },
-            debug: true
+            }
           },
           function(err) {
             if (err) {
@@ -53,7 +75,6 @@
         );
       },
       onScannerInitiated() {
-        this.set({ initiated: true });
         Quagga.onDetected(this.onScannerSuccess.bind(this));
         Quagga.onProcessed(this.onProcessing);
         Quagga.start();
@@ -63,36 +84,24 @@
         var drawingCtx = Quagga.canvas.ctx.overlay,
           drawingCanvas = Quagga.canvas.dom.overlay;
 
-        if (result) {
-          if (result.boxes) {
-            drawingCtx.clearRect(
-              0,
-              0,
-              parseInt(drawingCanvas.getAttribute("width")),
-              parseInt(drawingCanvas.getAttribute("height"))
-            );
-            result.boxes
-              .filter(function(box) {
-                return box !== result.box;
-              })
-              .forEach(function(box) {
-                Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: "green", lineWidth: 2 });
-              });
-          }
-
-          if (result.box) {
-            Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "#00F", lineWidth: 2 });
-          }
-
-          if (result.codeResult && result.codeResult.code) {
-            Quagga.ImageDebug.drawPath(result.line, { x: "x", y: "y" }, drawingCtx, { color: "red", lineWidth: 3 });
-          }
+        if (result && result.codeResult && result.codeResult.code) {
+          drawingCtx.clearRect(
+            0,
+            0,
+            Number(drawingCanvas.getAttribute("width")),
+            Number(drawingCanvas.getAttribute("height"))
+          );
+          Quagga.ImageDebug.drawPath(result.line, { x: "x", y: "y" }, drawingCtx, { color: "red", lineWidth: 3 });
         }
       },
       onScannerSuccess(data) {
-        this.set({ data: data.codeResult.code });
-        console.log(data);
-        Quagga.stop();
+        const { samples } = this.get();
+        this.set({ samples: samples.concat(data.codeResult.code) });
+        console.log(data.codeResult.code);
+        if (samples.length >= SAMPLE_AMOUNT) {
+          Quagga.stop();
+          this.set({ done: true });
+        }
       }
     },
     oncreate() {
