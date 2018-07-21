@@ -1,13 +1,15 @@
 <Card className="content">
-  <h1>Hello {name}!</h1>
-  <Button on:click="onClickHandler()">test button</Button>
-  <Scanner />
+  {#if $displayScanner}
+    <Scanner />
+  {/if}
+  <AddItemForm />
+  
 </Card>
 
 <script>
   export default {
     components: {
-      Button: "./components/Button",
+      AddItemForm: "./components/AddItemForm",
       Scanner: "./components/Scanner",
       Card: "./components/Card"
     },
@@ -21,8 +23,4 @@
 
 <style>
   @import "./styles";
-
-  h1 {
-    color: var(--titleColor);
-  }
 </style>

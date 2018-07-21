@@ -1,8 +1,7 @@
 import App from "./App.svelte";
+import store from "./stores/main";
 
 new App({
   target: document.getElementById("root"),
-  data: {
-    name: "world"
-  }
+  store
 });

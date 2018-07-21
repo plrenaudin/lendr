@@ -1,8 +1,5 @@
 <div class="scanner-container">
   <section id="scanner"></section>
-  {#if done}
-    {evaluated}
-  {/if}
 </div>
 
 <script>
@@ -29,13 +26,8 @@
 
   export default {
     data: () => ({
-      done: false,
       samples: []
     }),
-
-    computed: {
-      evaluated: ({ samples }) => mostCommonOccurrence(samples)
-    },
 
     methods: {
       initScanner() {
@@ -78,7 +70,6 @@
         Quagga.onDetected(this.onScannerSuccess.bind(this));
         Quagga.onProcessed(this.onProcessing);
         Quagga.start();
-        console.log("Initialization finished. Ready to start");
       },
       onProcessing(result) {
         var drawingCtx = Quagga.canvas.ctx.overlay,
@@ -100,12 +91,13 @@
         console.log(data.codeResult.code);
         if (samples.length >= SAMPLE_AMOUNT) {
           Quagga.stop();
-          this.set({ done: true });
+          this.store.set({ scanResult: mostCommonOccurrence(samples), displayScanner: false });
         }
       }
     },
     oncreate() {
       this.on("scanner-intiated", this.onScannerInitiated);
+      this.store.set({ scanResult: "" });
       this.initScanner();
     }
   };
