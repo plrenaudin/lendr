@@ -59,7 +59,7 @@
           },
           function(err) {
             if (err) {
-              console.log(err);
+              console.error(err);
               return;
             }
             me.fire("scanner-intiated");
@@ -88,7 +88,6 @@
       onScannerSuccess(data) {
         const { samples } = this.get();
         this.set({ samples: samples.concat(data.codeResult.code) });
-        console.log(data.codeResult.code);
         if (samples.length >= SAMPLE_AMOUNT) {
           Quagga.stop();
           this.store.set({ scanResult: mostCommonOccurrence(samples), displayScanner: false });

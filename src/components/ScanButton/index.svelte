@@ -9,7 +9,6 @@
         this.store.set({ displayScanner: true });
       },
       onScan(data) {
-        console.log("init", data);
         this.fire("scan", { data });
       }
     },

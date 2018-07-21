@@ -8,5 +8,8 @@
   "settings": {
     "html/html-extensions": [".html", ".svelte"]
   },
+  "rules": {
+    "no-console": ["error", { "allow": ["warn", "error"] }]
+  },
   "parserOptions": { "ecmaVersion": 6, "sourceType": "module" }
 }
