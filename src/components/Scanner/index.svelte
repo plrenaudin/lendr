@@ -92,13 +92,12 @@
         this.set({ samples: samples.concat(data.codeResult.code) });
         if (samples.length >= SAMPLE_AMOUNT) {
           Quagga.stop();
-          this.store.set({ scanResult: mostCommonOccurrence(samples), displayScanner: false });
+          this.fire("scanned", { data: mostCommonOccurrence(samples) });
         }
       }
     },
     oncreate() {
       this.on("scanner-intiated", this.onScannerInitiated);
-      this.store.set({ scanResult: "" });
       this.initScanner();
     },
     ondestroy() {

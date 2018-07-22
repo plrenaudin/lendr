@@ -2,7 +2,7 @@
   <label>
     Item SN
     <input ref:scanInput type="text"  />
-    <ScanButton on:scan="setValue(event.data)" />
+    <ScanButton on:scanResult="setValue(event.data)" />
   </label>
 </section>
 
@@ -12,8 +12,8 @@
       ScanButton: "../ScanButton"
     },
     methods: {
-      setValue(e) {
-        this.refs.scanInput.value = e.data;
+      setValue(value) {
+        this.refs.scanInput.value = value;
       }
     }
   };
