@@ -1,15 +1,22 @@
-<Button on:click="openScanner()">Scan</Button>
+<Button on:click="set({displayScanner: true})">Scan</Button>
+{#if displayScanner}
+  <Scanner on:scanned="onScan(event)" />
+{/if}
 <script>
   export default {
+    data() {
+      return {
+        displayScanner: false
+      };
+    },
     components: {
-      Button: "../Button"
+      Button: "../Button",
+      Scanner: "../Scanner"
     },
     methods: {
-      openScanner() {
-        this.store.set({ displayScanner: true });
-      },
-      onScan(data) {
-        this.fire("scan", { data });
+      onScan({ data }) {
+        this.fire("scanResult", { data });
+        this.set({ displayScanner: false });
       }
     },
     oncreate() {
