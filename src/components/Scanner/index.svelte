@@ -25,9 +25,11 @@
   };
 
   export default {
-    data: () => ({
-      samples: []
-    }),
+    data() {
+      return {
+        samples: []
+      };
+    },
 
     methods: {
       initScanner() {
@@ -98,6 +100,10 @@
       this.on("scanner-intiated", this.onScannerInitiated);
       this.store.set({ scanResult: "" });
       this.initScanner();
+    },
+    ondestroy() {
+      Quagga.offProcessed();
+      Quagga.offDetected();
     }
   };
 </script>
