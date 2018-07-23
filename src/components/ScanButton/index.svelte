@@ -15,12 +15,9 @@
     },
     methods: {
       onScan({ data }) {
-        this.fire("scanResult", { data });
         this.set({ displayScanner: false });
+        this.fire("scanResult", { data });
       }
-    },
-    oncreate() {
-      this.store.on("scanned", this.onScan.bind(this));
     }
   };
 </script>

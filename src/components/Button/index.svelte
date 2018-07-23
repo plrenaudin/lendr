@@ -1,4 +1,4 @@
-<button on:click="fire('click')">
+<button on:click="fire('click')" disabled={disabled}>
   <slot></slot>
 </button>
 
