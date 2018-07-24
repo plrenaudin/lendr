@@ -11,5 +11,5 @@
   "rules": {
     "no-console": ["error", { "allow": ["warn", "error"] }]
   },
-  "parserOptions": { "ecmaVersion": 6, "sourceType": "module" }
+  "parserOptions": { "ecmaVersion": 8, "sourceType": "module" }
 }

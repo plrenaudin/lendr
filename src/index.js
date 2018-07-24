@@ -5,3 +5,5 @@ new App({
   target: document.getElementById("root"),
   store
 });
+
+window.store = store;
