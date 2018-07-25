@@ -33,6 +33,13 @@ const db = {
       return tx.complete;
     });
   },
+  clear() {
+    return dbPromise.then(db => {
+      const tx = db.transaction("inventory", "readwrite");
+      tx.objectStore("inventory").clear();
+      return tx.complete;
+    });
+  },
   import(data) {
     return dbPromise.then(db => {
       const tx = db.transaction("inventory", "readwrite");

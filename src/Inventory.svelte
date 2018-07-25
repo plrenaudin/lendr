@@ -3,7 +3,7 @@
   <AddItemForm />
   <ul>
   {#each $items as item}
-    <li>{item.id} {item.description}</li>
+    <li>{item.id} {item.description}<Button on:click="$removeItem(item)">remove</Button></li>
   {/each}
   </ul>
 </main>
@@ -16,7 +16,8 @@
       };
     },
     components: {
-      AddItemForm: "./components/AddItemForm"
+      AddItemForm: "./components/AddItemForm",
+      Button: "./components/Button"
     }
   };
 </script>
