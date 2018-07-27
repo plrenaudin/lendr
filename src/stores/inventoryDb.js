@@ -26,10 +26,10 @@ const db = {
       }
     });
   },
-  set({ id, description }) {
+  set({ id, description, quantity }) {
     return dbPromise.then(db => {
       const tx = db.transaction("inventory", "readwrite");
-      tx.objectStore("inventory").put({ id, data: { description } });
+      tx.objectStore("inventory").put({ id, data: { description, quantity } });
       return tx.complete;
     });
   },

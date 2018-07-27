@@ -5,7 +5,7 @@
     <ScanButton on:scanResult="set({id: event.data})" />
     {#if id}
       <input type="text" bind:value=description />
-      <Button on:click="addItem()" bind:disabled>Add</Button>
+      <Button on:click="addItem()" bind:disabled>{increment ? "Add one": "Add new"}</Button>
     {/if}
   </label>
 </section>
@@ -19,7 +19,8 @@
     data() {
       return {
         id: "",
-        description: ""
+        description: "",
+        increment: false
       };
     },
     computed: {
@@ -35,7 +36,7 @@
       this.on("state", ({ changed, current }) => {
         if (changed.id) {
           const found = this.store.get().items.find(i => i.id === current.id);
-          found && this.set({ description: found.description });
+          this.set({ description: found ? found.description : "", increment: found });
         }
       });
     }
