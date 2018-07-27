@@ -11,5 +11,11 @@
   "rules": {
     "no-console": ["error", { "allow": ["warn", "error"] }]
   },
-  "parserOptions": { "ecmaVersion": 8, "sourceType": "module" }
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    },
+    "sourceType": "module"
+  }
 }

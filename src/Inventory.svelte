@@ -3,7 +3,7 @@
   <AddItemForm />
   <ul>
   {#each $items as item}
-    <li>{item.id} {item.description}<Button on:click="$removeItem(item)">remove</Button></li>
+    <li>{item.id} {item.description} {item.quantity}<Button on:click="$removeItem(item)">remove</Button></li>
   {/each}
   </ul>
 </main>

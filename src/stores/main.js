@@ -4,8 +4,12 @@ import db from "./inventoryDb";
 class MainStore extends Store {
   addItem({ id, description }) {
     const { items } = this.get();
-    if (!items.some(i => i.id === id)) {
-      this.set({ items: this.get().items.concat({ id, description }) });
+    const foundIndex = items.findIndex(i => i.id === id);
+    if (~foundIndex) {
+      items[foundIndex].quantity++;
+      this.set({ items });
+    } else {
+      this.set({ items: this.get().items.concat({ id, description, quantity: 1 }) });
     }
   }
 
@@ -23,7 +27,7 @@ db.getAll().then(itemsFromDb => {
   store.get().items.push(
     ...itemsFromDb.map(({ id, data }) => ({
       id,
-      description: data.description
+      ...data
     }))
   );
   store.on("state", ({ changed, current }) => {
