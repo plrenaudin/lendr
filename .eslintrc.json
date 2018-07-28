@@ -12,10 +12,7 @@
     "no-console": ["error", { "allow": ["warn", "error"] }]
   },
   "parserOptions": {
-    "ecmaVersion": 8,
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true
-    },
+    "ecmaVersion": 2018,
     "sourceType": "module"
   }
 }
