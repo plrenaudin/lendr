@@ -1,17 +1,17 @@
 <Card className="content">
-  <input bind:value=id type="text" />
-  <ScanButton on:scanResult="set({id: event.data})" />
-  {#if id}
+  <input bind:value="$currentId" type="text" />
+  <ScanButton on:scanResult="$set({currentId: event.data})" />
+  {#if $currentId}
     {#if action === "add"}
-      <AddItemForm bind:id on:added="reset()" />
+      <AddItemForm bind:id="$currentId" on:added="reset()"/>
     {:elseif action ==="lend"}
-      <LendForm bind:id on:lended="reset()" />
+      <LendForm bind:id="$currentId" on:lent="reset()"/>
     {:elseif action ==="return"}
-      <ReturnForm bind:id on:lended="reset()" />
+      <ReturnForm bind:id="$currentId" on:returned="reset()"/>
     {:else}
       <ul>
         <li on:click="set({action:'add'})">Add</li>
-        {#if isLendable}
+        {#if $isLendable}
           <li on:click="set({action:'lend'})">Lend</li>
         {/if}
       </ul>
@@ -25,13 +25,6 @@
 
 <script>
   export default {
-    data() {
-      return {
-        id: "",
-        action: "",
-        displayInventory: false
-      };
-    },
     components: {
       Card: "./components/Card",
       Button: "./components/Button",
@@ -41,13 +34,16 @@
       ReturnForm: "./components/ReturnForm",
       Inventory: "./components/Inventory"
     },
+    data() {
+      return {
+        action: "",
+        displayInventory: false
+      };
+    },
     methods: {
       reset() {
-        this.set({ id: "", action: "" });
+        this.set({ action: "" });
       }
-    },
-    computed: {
-      isLendable: ({ id, $items }) => $items.some(i => i.id === id)
     }
   };
 </script>
