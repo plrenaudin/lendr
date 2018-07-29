@@ -19,10 +19,14 @@ class MainStore extends Store {
 }
 
 const store = new MainStore({
+  currentId: "",
   scanResult: "",
-  items: []
+  items: [],
+  action: "",
+  displayInventory: false
 });
 
+//init store with idb data
 db.getAll().then(itemsFromDb => {
   store.get().items.push(
     ...itemsFromDb.map(({ id, data }) => ({
@@ -41,5 +45,9 @@ db.getAll().then(itemsFromDb => {
     }
   });
 });
+
+//computed
+store.compute("isLendable", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
+store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
 
 export default store;
