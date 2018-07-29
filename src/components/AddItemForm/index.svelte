@@ -22,6 +22,7 @@
       addItem() {
         this.store.addItem({ id: this.get().id, description: this.get().description });
         this.set({ id: "", description: "" });
+        this.fire("added");
       },
       onIdChange(newId) {
         const found = this.store.get().items.find(i => i.id === newId);

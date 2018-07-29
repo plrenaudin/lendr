@@ -13,17 +13,23 @@ class MainStore extends Store {
     }
   }
 
-  removeItem({ id }) {
-    this.set({ items: this.get().items.filter(i => i.id !== id) });
+  removeItem({ id, quantity }) {
+    const list = this.get().items;
+    const found = list.findIndex(i => i.id === id);
+    if (!~found) return;
+    if (quantity > 1) {
+      list[found].quantity--;
+    } else {
+      list.splice(found, 1);
+    }
+    this.set({ items: list });
   }
 }
 
 const store = new MainStore({
   currentId: "",
   scanResult: "",
-  items: [],
-  action: "",
-  displayInventory: false
+  items: []
 });
 
 //init store with idb data
@@ -36,12 +42,7 @@ db.getAll().then(itemsFromDb => {
   );
   store.on("state", ({ changed, current }) => {
     if (changed.items) {
-      const items = current.items;
-      // TODO replace by a proper diff and only persist needed stuff.
-      db.clear();
-      items.forEach(element => {
-        db.set(element);
-      });
+      onItemsChange(current);
     }
   });
 });
@@ -49,5 +50,18 @@ db.getAll().then(itemsFromDb => {
 //computed
 store.compute("isLendable", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
+
+//reactions
+const onItemsChange = ({ items }) => {
+  saveItems(items);
+};
+
+const saveItems = items => {
+  // TODO replace by a proper diff and only persist needed stuff.
+  db.clear();
+  items.forEach(element => {
+    db.set(element);
+  });
+};
 
 export default store;
