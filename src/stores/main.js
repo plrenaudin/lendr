@@ -29,17 +29,18 @@ class MainStore extends Store {
 const store = new MainStore({
   currentId: "",
   scanResult: "",
-  items: []
+  items: [],
+  loans: []
 });
 
 //init store with idb data
-db.getAll().then(itemsFromDb => {
-  store.get().items.push(
-    ...itemsFromDb.map(({ id, data }) => ({
+db.getAllItems().then(itemsFromDb => {
+  store.set({
+    items: itemsFromDb.map(({ id, data }) => ({
       id,
       ...data
     }))
-  );
+  });
   store.on("state", ({ changed, current }) => {
     if (changed.items) {
       onItemsChange(current);
@@ -58,9 +59,9 @@ const onItemsChange = ({ items }) => {
 
 const saveItems = items => {
   // TODO replace by a proper diff and only persist needed stuff.
-  db.clear();
+  db.clearItems();
   items.forEach(element => {
-    db.set(element);
+    db.setItem(element);
   });
 };
 
