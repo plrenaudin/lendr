@@ -47,10 +47,10 @@ const db = {
       return tx.complete;
     });
   },
-  deleteItem(key) {
+  deleteItem({ id }) {
     return dbPromise.then(db => {
       const tx = db.transaction("inventory", "readwrite");
-      tx.objectStore("inventory").delete(key);
+      tx.objectStore("inventory").delete(id);
       return tx.complete;
     });
   }
