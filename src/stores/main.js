@@ -6,10 +6,14 @@ class MainStore extends Store {
     const { items } = this.get();
     const foundIndex = items.findIndex(i => i.id === id);
     if (~foundIndex) {
-      items[foundIndex].quantity++;
+      const storeItem = items[foundIndex];
+      storeItem.quantity++;
       this.set({ items });
+      db.setItem(storeItem);
     } else {
-      this.set({ items: this.get().items.concat({ id, description, quantity: 1 }) });
+      const newItem = { id, description, quantity: 1 };
+      this.set({ items: this.get().items.concat(newItem) });
+      db.setItem(newItem);
     }
   }
 
@@ -18,8 +22,11 @@ class MainStore extends Store {
     const found = list.findIndex(i => i.id === id);
     if (!~found) return;
     if (quantity > 1) {
-      list[found].quantity--;
+      const existing = list[found];
+      existing.quantity--;
+      db.setItem(existing);
     } else {
+      db.deleteItem(list[found]);
       list.splice(found, 1);
     }
     this.set({ items: list });
@@ -29,39 +36,22 @@ class MainStore extends Store {
 const store = new MainStore({
   currentId: "",
   scanResult: "",
-  items: []
+  items: [],
+  loans: []
 });
 
 //init store with idb data
-db.getAll().then(itemsFromDb => {
-  store.get().items.push(
-    ...itemsFromDb.map(({ id, data }) => ({
+db.getAllItems().then(itemsFromDb => {
+  store.set({
+    items: itemsFromDb.map(({ id, data }) => ({
       id,
       ...data
     }))
-  );
-  store.on("state", ({ changed, current }) => {
-    if (changed.items) {
-      onItemsChange(current);
-    }
   });
 });
 
 //computed
 store.compute("isLendable", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
-
-//reactions
-const onItemsChange = ({ items }) => {
-  saveItems(items);
-};
-
-const saveItems = items => {
-  // TODO replace by a proper diff and only persist needed stuff.
-  db.clear();
-  items.forEach(element => {
-    db.set(element);
-  });
-};
 
 export default store;

@@ -5,7 +5,7 @@ const dbPromise = idb.open("lendr-store", 1, upgradeDB => {
 });
 
 const db = {
-  getAll() {
+  getAllItems() {
     return dbPromise.then(db =>
       db
         .transaction("inventory")
@@ -13,7 +13,7 @@ const db = {
         .getAll()
     );
   },
-  get(key) {
+  getItem(key) {
     return dbPromise.then(db => {
       if (Array.isArray(key)) {
         const transaction = db.transaction("inventory");
@@ -26,14 +26,14 @@ const db = {
       }
     });
   },
-  set({ id, description, quantity }) {
+  setItem({ id, description, quantity }) {
     return dbPromise.then(db => {
       const tx = db.transaction("inventory", "readwrite");
       tx.objectStore("inventory").put({ id, data: { description, quantity } });
       return tx.complete;
     });
   },
-  clear() {
+  clearItems() {
     return dbPromise.then(db => {
       const tx = db.transaction("inventory", "readwrite");
       tx.objectStore("inventory").clear();
@@ -47,10 +47,10 @@ const db = {
       return tx.complete;
     });
   },
-  delete(key) {
+  deleteItem({ id }) {
     return dbPromise.then(db => {
       const tx = db.transaction("inventory", "readwrite");
-      tx.objectStore("inventory").delete(key);
+      tx.objectStore("inventory").delete(id);
       return tx.complete;
     });
   }
