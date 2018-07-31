@@ -14,7 +14,9 @@
         {#if $isLendable}
           <li on:click="set({action:'lend'})">Lend</li>
         {/if}
-        <li on:click="set({action:'return'})">Return</li>
+        {#if $isReturnable}
+          <li on:click="set({action:'return'})">Return</li>
+        {/if}
       </ul>
     {/if}
   {/if}

@@ -69,7 +69,15 @@ Promise.all([db.getAllItems(), db.getAllLoans()]).then(([itemsFromDb, loansFromD
 );
 
 //computed
-store.compute("isLendable", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
+store.compute("activeLoans", ["loans"], (loans = []) => loans.filter(i => !i.returned));
+store.compute("isLendable", ["currentId", "items", "loans"], (currentId, items = [], loans = []) => {
+  const item = items.find(i => i.id === currentId);
+  const currentLoans = loans.filter(i => i.id === currentId && !i.returned);
+  return item && item.quantity > (currentLoans || []).length;
+});
+store.compute("isReturnable", ["currentId", "loans"], (currentId, loans = []) =>
+  loans.find(i => i.id === currentId && !i.returned)
+);
 
 export default store;
