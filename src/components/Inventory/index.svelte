@@ -25,7 +25,7 @@
     },
     helpers: {
       isDeletable: (items, loans, id) =>
-        items.find(i => id === i.id).quantity > (loans.find(i => id === i.id) || []).length
+        items.find(i => id === i.id).quantity > (loans.filter(i => id === i.id && !i.returned) || []).length
     }
   };
 </script>
