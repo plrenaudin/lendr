@@ -2,6 +2,7 @@ import idb from "idb";
 
 const dbPromise = idb.open("lendr-store", 1, upgradeDB => {
   upgradeDB.createObjectStore("inventory", { keyPath: "id" });
+  upgradeDB.createObjectStore("loans", { keyPath: "id" });
 });
 
 const db = {
@@ -30,6 +31,28 @@ const db = {
     return dbPromise.then(db => {
       const tx = db.transaction("inventory", "readwrite");
       tx.objectStore("inventory").put({ id, data: { description, quantity } });
+      return tx.complete;
+    });
+  },
+  getAllLoans() {
+    return dbPromise.then(db =>
+      db
+        .transaction("loans")
+        .objectStore("loans")
+        .getAll()
+    );
+  },
+  lendItem({ id, name }) {
+    return dbPromise.then(db => {
+      const tx = db.transaction("loans", "readwrite");
+      tx.objectStore("loans").put({ id, data: { name, lent: new Date() } });
+      return tx.complete;
+    });
+  },
+  returnItem({ id, name, lent }) {
+    return dbPromise.then(db => {
+      const tx = db.transaction("loans", "readwrite");
+      tx.objectStore("loans").put({ id, data: { name, lent, returned: new Date() } });
       return tx.complete;
     });
   },

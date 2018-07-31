@@ -31,6 +31,20 @@ class MainStore extends Store {
     }
     this.set({ items: list });
   }
+
+  lendItem({ id, name }) {
+    this.set({ loans: this.get().loans.concat({ id, name, lent: new Date() }) });
+    db.lendItem({ id, name });
+  }
+  returnItem({ id, name }) {
+    const loans = this.get().loans;
+    const found = loans.findIndex(i => i.name === name && i.id === id && !i.returned);
+    if (~found) {
+      loans[found].returned = new Date();
+      this.set({ loans });
+      db.returnItem({ id, name, lent: loans[found].lent });
+    }
+  }
 }
 
 const store = new MainStore({
@@ -41,14 +55,18 @@ const store = new MainStore({
 });
 
 //init store with idb data
-db.getAllItems().then(itemsFromDb => {
+Promise.all([db.getAllItems(), db.getAllLoans()]).then(([itemsFromDb, loansFromDb]) =>
   store.set({
     items: itemsFromDb.map(({ id, data }) => ({
       id,
       ...data
+    })),
+    loans: loansFromDb.map(({ id, data }) => ({
+      id,
+      ...data
     }))
-  });
-});
+  })
+);
 
 //computed
 store.compute("isLendable", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
