@@ -55,18 +55,7 @@ const store = new MainStore({
 });
 
 //init store with idb data
-Promise.all([db.getAllItems(), db.getAllLoans()]).then(([itemsFromDb, loansFromDb]) =>
-  store.set({
-    items: itemsFromDb.map(({ id, data }) => ({
-      id,
-      ...data
-    })),
-    loans: loansFromDb.map(({ id, data }) => ({
-      id,
-      ...data
-    }))
-  })
-);
+Promise.all([db.getAllItems(), db.getAllLoans()]).then(([items, loans]) => store.set({ items, loans }));
 
 //computed
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
