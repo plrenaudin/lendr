@@ -31,6 +31,20 @@ class MainStore extends Store {
     }
     this.set({ items: list });
   }
+
+  lendItem({ id, name }) {
+    this.set({ loans: this.get().loans.concat({ id, name, lent: new Date() }) });
+    db.lendItem({ id, name });
+  }
+  returnItem({ id, name }) {
+    const loans = this.get().loans;
+    const found = loans.findIndex(i => i.name === name && i.id === id && !i.returned);
+    if (~found) {
+      loans[found].returned = new Date();
+      this.set({ loans });
+      db.returnItem({ id, name, lent: loans[found].lent });
+    }
+  }
 }
 
 const store = new MainStore({
@@ -41,17 +55,18 @@ const store = new MainStore({
 });
 
 //init store with idb data
-db.getAllItems().then(itemsFromDb => {
-  store.set({
-    items: itemsFromDb.map(({ id, data }) => ({
-      id,
-      ...data
-    }))
-  });
-});
+Promise.all([db.getAllItems(), db.getAllLoans()]).then(([items, loans]) => store.set({ items, loans }));
 
 //computed
-store.compute("isLendable", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
+store.compute("activeLoans", ["loans"], (loans = []) => loans.filter(i => !i.returned));
+store.compute("isLendable", ["currentId", "items", "loans"], (currentId, items = [], loans = []) => {
+  const item = items.find(i => i.id === currentId);
+  const currentLoans = loans.filter(i => i.id === currentId && !i.returned);
+  return item && item.quantity > (currentLoans || []).length;
+});
+store.compute("isReturnable", ["currentId", "loans"], (currentId, loans = []) =>
+  loans.find(i => i.id === currentId && !i.returned)
+);
 
 export default store;
