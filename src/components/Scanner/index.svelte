@@ -1,4 +1,5 @@
 <div class="scanner-container">
+  <div class="overlay" on:click="destroy()"></div>
   <section id="scanner"></section>
 </div>
 
@@ -108,9 +109,23 @@
 </script>
 
 <style>
+  @import "../../styles";
+  .scanner-container {
+    position: fixed;
+    width: 100%;
+  }
+  .overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    top: 0;
+    opacity: 0.8;
+  }
   #scanner {
     min-height: 300px;
     width: 100%;
     position: relative;
+    background-color: var(--bgColor);
   }
 </style>

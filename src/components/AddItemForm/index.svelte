@@ -1,7 +1,7 @@
 <section>
   <label>
       <input type="text" bind:value=description />
-      <Button on:click="addItem()" bind:disabled>{$exists ? "Add one": "Add new"}</Button>
+      <Button on:click="addItem()" icon="plus" bind:disabled>{$exists ? "Add one": "Add new"}</Button>
   </label>
 </section>
 

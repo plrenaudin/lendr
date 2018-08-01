@@ -1,4 +1,4 @@
-<Button on:click="set({displayScanner: true})">Scan</Button>
+<Button on:click="set({displayScanner: !displayScanner})" icon="barcode" big>Scan</Button>
 {#if displayScanner}
   <Scanner on:scanned="onScan(event)" />
 {/if}
