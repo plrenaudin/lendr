@@ -1,7 +1,7 @@
 <section>
   <label>
       <input type="text" bind:value=name placeholder="Name" />
-      <Button on:click="returnItem()" bind:disabled>Return</Button>
+      <Button on:click="returnItem()" bind:disabled icon="download">Return</Button>
   </label>
 </section>
 

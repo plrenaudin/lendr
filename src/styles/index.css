@@ -8,10 +8,12 @@
 
 body {
   background-color: var(--bgColor);
+  font-size: 1.3rem;
 }
 
-.content {
-  padding: 2rem;
+input {
+  padding: 0.5rem;
+  font-size: 1rem;
 }
 
 .drawingBuffer {
@@ -26,4 +28,13 @@ a {
 
 a:hover {
   color: var(--linkHoverColor);
+}
+
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
 }

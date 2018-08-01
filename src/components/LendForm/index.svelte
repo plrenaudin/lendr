@@ -1,7 +1,7 @@
 <section>
   <label>
       <input type="text" bind:value=name placeholder="Name" />
-      <Button on:click="lendItem()" bind:disabled>Lend</Button>
+      <Button on:click="lendItem()" bind:disabled icon="upload">Lend</Button>
   </label>
 </section>
 

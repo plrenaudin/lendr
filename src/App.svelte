@@ -1,6 +1,6 @@
-<Card className="content">
-  <input bind:value="$currentId" type="text" />
+<div class="content">
   <ScanButton on:scanResult="$set({currentId: event.data})" />
+  <input bind:value="$currentId" type="text" />
   {#if $currentId}
     {#if action === "add"}
       <AddItemForm bind:id="$currentId" on:added="reset()"/>
@@ -10,26 +10,33 @@
       <ReturnForm bind:id="$currentId" on:returned="reset()"/>
     {:else}
       <ul>
-        <li on:click="set({action:'add'})">Add</li>
+        <Button on:click="set({action:'add'})" icon="plus">
+          Add
+        </Button>
         {#if $isLendable}
-          <li on:click="set({action:'lend'})">Lend</li>
+          <Button on:click="set({action:'lend'})" icon="upload">
+            Lend
+          </Button>
         {/if}
         {#if $isReturnable}
-          <li on:click="set({action:'return'})">Return</li>
+          <Button on:click="set({action:'return'})" icon="download">
+            Return
+          </Button>
         {/if}
       </ul>
     {/if}
   {/if}
-  <Button on:click="set({displayInventory: !displayInventory})">{displayInventory? "Hide":"Show"} Inventory</Button>
+  <Button on:click="set({displayInventory: !displayInventory})" icon="books">
+    {displayInventory? "Hide":"Show"} Inventory
+  </Button>
   {#if displayInventory}
     <Inventory />
   {/if}
-</Card>
+</div>
 
 <script>
   export default {
     components: {
-      Card: "./components/Card",
       Button: "./components/Button",
       ScanButton: "./components/ScanButton",
       AddItemForm: "./components/AddItemForm",
@@ -53,4 +60,12 @@
 
 <style>
   @import "./styles";
+  .content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    min-height: 100vh;
+  }
 </style>

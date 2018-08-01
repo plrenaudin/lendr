@@ -5,7 +5,7 @@
     <li>
       {item.id} {item.description} {item.quantity}
       {#if isDeletable($items,$loans,item.id)}
-      <Button on:click="$removeItem(item)">remove</Button>
+      <Button on:click="$removeItem(item)" icon="bin" />
       {/if}
     </li>
   {/each}
@@ -13,7 +13,7 @@
   <h3>Loans</h3>
   <ul>
   {#each $loans as loan}
-    <li>{loan.id} {loan.name} {loan.lent} {loan.returned}</li>
+    <li>{loan.id} {loan.name} {loan.lent} {loan.returned || ""}</li>
   {/each}
   </ul>
 </main>
