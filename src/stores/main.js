@@ -68,5 +68,5 @@ store.compute("isLendable", ["currentId", "items", "loans"], (currentId, items =
 store.compute("isReturnable", ["currentId", "loans"], (currentId, loans = []) =>
   loans.find(i => i.id === currentId && !i.returned)
 );
-
+store.compute("currentItem", ["currentId", "items"], (currentId, items) => items.find(i => i.id === currentId));
 export default store;

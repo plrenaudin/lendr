@@ -16,13 +16,13 @@
       };
     },
     computed: {
-      disabled: ({ id, name }) => !id || !name
+      disabled: ({ id, name, $activeLoans }) => !id || !name || !$activeLoans.some(i => i.id === id && i.name === name)
     },
     methods: {
       returnItem() {
         this.store.returnItem({ id: this.get().id, name: this.get().name });
         this.set({ id: "", name: "" });
-        this.fire("lent");
+        this.fire("returned");
       }
     }
   };

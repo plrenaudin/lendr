@@ -1,5 +1,5 @@
 <div class="scanner-container">
-  <div class="overlay" on:click="destroy()"></div>
+  <div class="overlay" on:click="fire('dismiss')"></div>
   <section id="scanner"></section>
 </div>
 
@@ -44,8 +44,8 @@
               type: "LiveStream",
               target: scannerEl,
               constraints: {
-                width: scannerEl.offsetWidth,
-                height: scannerEl.offsetHeight,
+                width: 350,
+                height: 350,
                 facingMode: "environment"
               }
             },
@@ -92,7 +92,6 @@
         const { samples } = this.get();
         this.set({ samples: samples.concat(data.codeResult.code) });
         if (samples.length >= SAMPLE_AMOUNT) {
-          Quagga.stop();
           this.fire("scanned", { data: mostCommonOccurrence(samples) });
         }
       }
@@ -102,6 +101,7 @@
       this.initScanner();
     },
     ondestroy() {
+      Quagga.stop();
       Quagga.offProcessed();
       Quagga.offDetected();
     }
@@ -112,7 +112,9 @@
   @import "../../styles";
   .scanner-container {
     position: fixed;
+    text-align: center;
     width: 100%;
+    left: 0;
   }
   .overlay {
     position: fixed;
@@ -120,12 +122,13 @@
     height: 100%;
     background-color: black;
     top: 0;
+    left: 0;
     opacity: 0.8;
   }
   #scanner {
+    margin: 0 auto;
     min-height: 300px;
     width: 100%;
     position: relative;
-    background-color: var(--bgColor);
   }
 </style>

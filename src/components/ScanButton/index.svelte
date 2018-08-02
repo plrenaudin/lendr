@@ -1,6 +1,6 @@
 <Button on:click="set({displayScanner: !displayScanner})" icon="barcode" big>Scan</Button>
 {#if displayScanner}
-  <Scanner on:scanned="onScan(event)" />
+  <Scanner on:scanned="onScan(event)" on:dismiss="set({displayScanner:false})" />
 {/if}
 <script>
   export default {
