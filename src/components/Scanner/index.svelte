@@ -44,8 +44,8 @@
               type: "LiveStream",
               target: scannerEl,
               constraints: {
-                width: scannerEl.offsetWidth,
-                height: scannerEl.offsetHeight,
+                width: 350,
+                height: 350,
                 facingMode: "environment"
               }
             },
@@ -112,6 +112,9 @@
   @import "../../styles";
   .scanner-container {
     position: fixed;
+    display: flex;
+    align-items: center;
+    text-align: center;
     width: 100%;
   }
   .overlay {
@@ -123,9 +126,9 @@
     opacity: 0.8;
   }
   #scanner {
+    margin: 0 auto;
     min-height: 300px;
     width: 100%;
     position: relative;
-    background-color: var(--bgColor);
   }
 </style>
