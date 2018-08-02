@@ -1,5 +1,5 @@
 <div class="scanner-container">
-  <div class="overlay" on:click="destroy()"></div>
+  <div class="overlay" on:click="fire('dismiss')"></div>
   <section id="scanner"></section>
 </div>
 
@@ -92,7 +92,6 @@
         const { samples } = this.get();
         this.set({ samples: samples.concat(data.codeResult.code) });
         if (samples.length >= SAMPLE_AMOUNT) {
-          Quagga.stop();
           this.fire("scanned", { data: mostCommonOccurrence(samples) });
         }
       }
@@ -102,6 +101,7 @@
       this.initScanner();
     },
     ondestroy() {
+      Quagga.stop();
       Quagga.offProcessed();
       Quagga.offDetected();
     }
@@ -112,10 +112,9 @@
   @import "../../styles";
   .scanner-container {
     position: fixed;
-    display: flex;
-    align-items: center;
     text-align: center;
     width: 100%;
+    left: 0;
   }
   .overlay {
     position: fixed;
@@ -123,6 +122,7 @@
     height: 100%;
     background-color: black;
     top: 0;
+    left: 0;
     opacity: 0.8;
   }
   #scanner {

@@ -1,6 +1,10 @@
 <section>
   <label>
-      <input type="text" bind:value=description />
+      {#if $exists}
+        <span>{description}</span>
+      {:else}
+        <input type="text" bind:value=description placeholder="Description" />
+      {/if}
       <Button on:click="addItem()" icon="plus" bind:disabled>{$exists ? "Add one": "Add new"}</Button>
   </label>
 </section>
