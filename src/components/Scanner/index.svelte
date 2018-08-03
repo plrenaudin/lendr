@@ -1,7 +1,7 @@
 <div class="scanner-container">
   <div class="overlay" on:click="fire('dismiss')"></div>
   <section id="scanner">
-    <video id="video" style="border: 1px solid gray"></video>
+    <video id="video"></video>
   </section>
 </div>
 
@@ -21,7 +21,9 @@
         .then(result => {
           this.fire("scanned", { data: result.getText() });
         })
-        .catch(err => console.error(err));
+        .catch(() => {
+          //do nothing for the moment
+        });
     },
     ondestroy() {
       this.codeReader.reset();
@@ -47,7 +49,6 @@
   video {
     width: 100%;
     height: 400px;
-    border: none !important;
   }
   #scanner {
     position: fixed;
