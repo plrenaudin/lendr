@@ -3,7 +3,7 @@
     <div class="scan-button-container">
       <ScanButton on:scanResult="$set({currentId: event.data})" />
     </div>
-    <input bind:value="$currentId" type="text" disabled={action !== ''} />
+    <input bind:value="$currentId" type="text" disabled={action !== ''} class="main-input" placeholder="Item S/N" />
   </div>
   {#if $currentItem}
     <h2>{$currentItem.description} ({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</h2>
@@ -71,8 +71,13 @@
 
 <style>
   @import "./styles";
+  .main-input {
+    width: 90%;
+    margin: 0.3rem auto;
+    text-align: center;
+    font-size: 1.4rem;
+  }
   .content {
-    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;

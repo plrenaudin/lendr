@@ -12,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@zxing/library": "^0.7.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "date-fns": "^1.29.0",
     "eslint": "^5.2.0",
     "eslint-config-eslint": "^5.0.1",
     "eslint-plugin-html": "^4.0.5",
@@ -22,7 +24,6 @@
     "parcel-bundler": "^1.9.7",
     "parcel-plugin-svelte": "^1.2.2",
     "prettier": "^1.13.7",
-    "quagga": "^0.12.1",
     "svelte": "^2.9.5"
   },
   "lint-staged": {
