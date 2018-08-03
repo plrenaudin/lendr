@@ -6,7 +6,7 @@
 </div>
 
 <script>
-  import { BrowserBarcodeReader, VideoInputDevice } from "@zxing/library";
+  import { BrowserBarcodeReader } from "@zxing/library";
 
   export default {
     data() {
