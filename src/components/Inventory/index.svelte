@@ -1,16 +1,19 @@
 <main>
-  <h3>Inventory</h3>
+  <div class="header">
+    <input class="search" type="search" placeholder="Find Anywhere" bind:value=search /><Button on:click="fire('close')" icon="cancel">Close</Button>
+  </div>
+  <h3><Icon name="drawer" />Inventory</h3>
   <table>
     <thead>
       <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Qty</th>
-        <th>&nbsp;</th>
+        <th class="id">S/N</th>
+        <th class="name">Name</th>
+        <th class="qty">Qty</th>
+        <th class="action">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
-    {#each $items as item}
+    {#each $items.filter(itemPredicate) as item}
       <tr>
         <td class="id">{item.id}</td>
         <td>{item.description}</td>
@@ -21,29 +24,33 @@
           {/if}
         </td>
       </tr>
+    {:else}
+      <tr class="no-results"><td colspan="4">No Results</td></tr>
     {/each}
     </tbody>
   </table>
-  <h3>Loans</h3>
+  <h3><Icon name="upload" />Loans</h3>
   <table>
     <thead>
       <tr>
-        <th>Id</th>
+        <th class="id">S/N</th>
         <th>Name</th>
         <th>Lent</th>
         <th>Returned</th>
       </tr>
     </thead>
     <tbody>
-    {#each $loans as loan}
+    {#each $loans.filter(loanPredicate) as loan}
       <tr>
         <td class="id">{loan.id}</td>
         <td>{loan.name}</td>
-        <td>{longFormatDate(loan.lent)}</td>
+        <td>{shortFormatDate(loan.lent)}</td>
         <td>
-          {longFormatDate(loan.returned) || ''}
+          {loan.returned ? shortFormatDate(loan.returned) : ''}
         </td>
       </tr>
+    {:else}
+      <tr class="no-results"><td colspan="4">No Results</td></tr>
     {/each}
     </tbody>
   </table>
@@ -51,31 +58,74 @@
 </main>
 
 <script>
-  import { longFormatDate } from "../../utils/formatter";
+  import { shortFormatDate } from "../../utils/formatter";
+
+  const includes = (string, expression) => string.toLowerCase().includes(expression.toLowerCase());
+
   export default {
     components: {
-      Button: "../Button"
+      Button: "../Button",
+      Icon: "../Icon"
+    },
+    data() {
+      return {
+        search: ""
+      };
     },
     helpers: {
       isDeletable: (items, loans, id) =>
         items.find(i => id === i.id).quantity > (loans.filter(i => id === i.id && !i.returned) || []).length,
-      longFormatDate
+      shortFormatDate
+    },
+    computed: {
+      itemPredicate: ({ search }) => item =>
+        search ? includes(item.description, search) || includes(item.id, search) : true,
+      loanPredicate: ({ search }) => loan => (search ? includes(loan.name, search) || includes(loan.id, search) : true)
     }
   };
 </script>
 
 <style>
+  @import "../../styles/variables.css";
+  h3 {
+    margin: 1rem 0.3rem 0.3rem;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+  }
+  .search {
+    flex: 1 0 auto;
+  }
   table {
     table-layout: fixed;
+    font-size: 1rem;
+    border-collapse: collapse;
     width: 100%;
   }
   table td {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    position: relative;
+  }
+  tr.no-results td {
+    text-align: center;
   }
   .id {
     width: 20%;
-    font-size: 0.6rem;
+    font-size: 0.8rem;
+  }
+  .name {
+    width: 60%;
+  }
+  .qty {
+    width: 10%;
+  }
+  .action {
+    width: 10%;
+  }
+  thead tr th {
+    border-bottom: 1px solid var(--fontColor);
   }
 </style>
