@@ -41,11 +41,15 @@
     {displayInventory? "Hide":"Show"} Inventory
   </Button>
   {#if displayInventory}
-    <Inventory />
+    <div class="inventory-container" transition:fly="{y:200, duration:500}">
+      <Inventory on:close="set({displayInventory: false})" />
+    </div>
   {/if}
 </div>
 
 <script>
+  import { fly } from "svelte-transitions";
+
   export default {
     components: {
       Button: "./components/Button",
@@ -65,7 +69,8 @@
       reset() {
         this.set({ action: "" });
       }
-    }
+    },
+    transitions: { fly }
   };
 </script>
 
@@ -76,6 +81,12 @@
     margin: 0.3rem auto;
     text-align: center;
     font-size: 1.4rem;
+  }
+  .inventory-container {
+    position: fixed;
+    background: var(--bgColor);
+    top: 0;
+    height: 100vh;
   }
   .content {
     display: flex;

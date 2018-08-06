@@ -24,7 +24,8 @@
     "parcel-bundler": "^1.9.7",
     "parcel-plugin-svelte": "^1.2.2",
     "prettier": "^1.13.7",
-    "svelte": "^2.9.5"
+    "svelte": "^2.9.5",
+    "svelte-transitions": "^1.2.0"
   },
   "lint-staged": {
     "*.{js,json,css}": [
