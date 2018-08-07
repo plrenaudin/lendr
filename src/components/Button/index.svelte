@@ -31,6 +31,7 @@
     border-radius: 0.5rem;
     display: inline-flex;
     align-items: center;
+    box-shadow: 0 1px 3px var(--shadowColor);
   }
   button.big {
     padding: 1rem;

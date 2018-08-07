@@ -2,6 +2,13 @@
   <div class="header">
     <input class="search" type="search" placeholder="Find Anywhere" bind:value=search /><Button on:click="fire('close')" icon="cancel">Close</Button>
   </div>
+  <nav>
+    <ul>
+      <li on:click="set({tab: 'inventory'})" class={tab === 'inventory' ? 'selected':''}><Icon name="drawer" />Inventory</li>
+      <li on:click="set({tab: 'loans'})" class={tab === 'loans' ? 'selected':''}><Icon name="upload" />Loans</li>
+    </ul>
+  </nav>
+  {#if tab ==="inventory"}
   <h3><Icon name="drawer" />Inventory</h3>
   <table>
     <thead>
@@ -29,6 +36,7 @@
     {/each}
     </tbody>
   </table>
+  {:else}
   <h3><Icon name="upload" />Loans</h3>
   <table>
     <thead>
@@ -54,7 +62,7 @@
     {/each}
     </tbody>
   </table>
-  
+  {/if}
 </main>
 
 <script>
@@ -69,7 +77,8 @@
     },
     data() {
       return {
-        search: ""
+        search: "",
+        tab: "inventory"
       };
     },
     helpers: {
@@ -96,6 +105,7 @@
   }
   .search {
     flex: 1 0 auto;
+    margin: 0.3rem;
   }
   table {
     table-layout: fixed;
@@ -127,5 +137,19 @@
   }
   thead tr th {
     border-bottom: 1px solid var(--fontColor);
+  }
+  nav ul {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+  }
+  nav ul li {
+    width: 100%;
+    color: var(--linkColor);
+    text-align: center;
+    padding: 0.5rem;
+  }
+  nav ul li.selected {
+    border-bottom: 1px solid var(--linkColor);
   }
 </style>
