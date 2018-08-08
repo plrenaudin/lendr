@@ -23,6 +23,7 @@
     "lint-staged": "^7.2.0",
     "parcel-bundler": "^1.9.7",
     "parcel-plugin-svelte": "^1.2.2",
+    "parcel-plugin-sw-precache": "^0.5.2",
     "prettier": "^1.13.7",
     "svelte": "^2.9.5",
     "svelte-transitions": "^1.2.0"
