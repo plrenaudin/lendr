@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Lendr</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#ffd54f" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -51,7 +53,18 @@
     </svg>
 
     <div id="root"></div>
+      <noscript>
+        <h1>Lendr</h1>
+        <p>This application requires javascript to run</p>
+    </noscript>
     <script src="src/index.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
+    </script>
 </body>
 
 </html>
