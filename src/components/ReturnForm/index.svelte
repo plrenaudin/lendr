@@ -1,8 +1,10 @@
 <section>
-  <label>
-      <input type="text" bind:value=name placeholder="Name" />
-      <Button on:click="returnItem()" bind:disabled icon="download">Return</Button>
-  </label>
+  <ul>
+    {#each loaners as loaner}
+      <li class={name === loaner ? 'selected': ''}><a on:click="set({name:loaner})" role="button">{loaner}</a></li>
+    {/each}
+  </ul>
+  <Button on:click="returnItem()" bind:disabled icon="download">Return</Button>
 </section>
 
 <script>
@@ -16,7 +18,8 @@
       };
     },
     computed: {
-      disabled: ({ id, name, $activeLoans }) => !id || !name || !$activeLoans.some(i => i.id === id && i.name === name)
+      disabled: ({ id, name, $activeLoans }) => !id || !name || !$activeLoans.some(i => i.id === id && i.name === name),
+      loaners: ({ id, $activeLoans }) => $activeLoans.filter(i => i.id === id).map(i => i.name)
     },
     methods: {
       returnItem() {
@@ -27,3 +30,22 @@
     }
   };
 </script>
+<style>
+  section {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+  }
+  ul {
+    list-style-type: none;
+    margin-right: 1rem;
+  }
+  li {
+    padding: 0.3rem 1rem;
+    text-align: center;
+  }
+  li.selected {
+    border: 1px solid var(--fontColor);
+  }
+</style>

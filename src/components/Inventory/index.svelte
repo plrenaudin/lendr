@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-    {#each $items.filter(itemPredicate) as item}
+    {#each $allItems.filter(itemPredicate) as item}
       <tr>
         <td class="id">{item.id}</td>
         <td>{item.description}</td>
@@ -48,7 +48,7 @@
       </tr>
     </thead>
     <tbody>
-    {#each $loans.filter(loanPredicate) as loan}
+    {#each $allLoans.filter(loanPredicate) as loan}
       <tr>
         <td class="id">{loan.id}</td>
         <td>{loan.name}</td>
