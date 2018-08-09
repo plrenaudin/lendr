@@ -53,12 +53,25 @@ const store = new MainStore({
   items: [],
   loans: []
 });
-
+const sortByDescription = (a, b) => {
+  const descriptionA = a.description.toUpperCase();
+  const descriptionB = b.description.toUpperCase();
+  return descriptionA > descriptionB ? 1 : descriptionA < descriptionB ? -1 : 0;
+};
+const sortByDate = (a, b) => (a.lent > b.lent ? -1 : a.lent < b.lent ? 1 : 0);
 //init store with idb data
-Promise.all([db.getAllItems(), db.getAllLoans()]).then(([items, loans]) => store.set({ items, loans }));
+Promise.all([db.getAllItems(), db.getAllLoans()]).then(([items, loans]) => {
+  store.set({
+    items,
+    loans
+  });
+});
 
 //computed
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
+store.compute("allLoans", ["loans"], (loans = []) => JSON.parse(JSON.stringify(loans)).sort(sortByDate));
+store.compute("allItems", ["items"], (items = []) => JSON.parse(JSON.stringify(items)).sort(sortByDescription));
+store.compute("activeLoans", ["loans"], (loans = []) => loans.filter(i => !i.returned));
 store.compute("activeLoans", ["loans"], (loans = []) => loans.filter(i => !i.returned));
 store.compute("isLendable", ["currentId", "items", "loans"], (currentId, items = [], loans = []) => {
   const item = items.find(i => i.id === currentId);

@@ -32,6 +32,12 @@
     display: inline-flex;
     align-items: center;
     box-shadow: 0 1px 3px var(--shadowColor);
+    transition: all 300ms ease-in;
+  }
+  button:focus,
+  button:active {
+    box-shadow: none;
+    outline: none;
   }
   button.big {
     padding: 1rem;
