@@ -81,7 +81,7 @@
     data() {
       return {
         search: "",
-        onlyActiveLoans: false,
+        onlyActiveLoans: true,
         tab: "inventory"
       };
     },
