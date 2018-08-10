@@ -85,15 +85,16 @@
   .inventory-container {
     position: fixed;
     background: var(--bgColor);
+    overflow: auto;
     top: 0;
-    height: 100vh;
+    bottom: 0;
   }
   .content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    min-height: 100vh;
+    height: 100vh;
   }
   .scanning {
     display: flex;

@@ -38,6 +38,9 @@
   </table>
   {:else}
   <h3><Icon name="upload" />Loans</h3>
+  <label class="active-filter">
+    <input type="checkbox" bind:checked="onlyActiveLoans" /> Active only
+  </label>
   <table>
     <thead>
       <tr>
@@ -48,13 +51,13 @@
       </tr>
     </thead>
     <tbody>
-    {#each $allLoans.filter(loanPredicate) as loan}
+    {#each loans.filter(loanPredicate) as loan}
       <tr>
         <td class="id">{loan.id}</td>
         <td>{loan.name}</td>
-        <td>{shortFormatDate(loan.lent)}</td>
+        <td>{textFormatDate(loan.lent)}</td>
         <td>
-          {loan.returned ? shortFormatDate(loan.returned) : ''}
+          {loan.returned ? textFormatDate(loan.returned) : ''}
         </td>
       </tr>
     {:else}
@@ -66,9 +69,9 @@
 </main>
 
 <script>
-  import { shortFormatDate } from "../../utils/formatter";
+  import { textFormatDate } from "../../utils/formatter";
 
-  const includes = (string, expression) => string.toLowerCase().includes(expression.toLowerCase());
+  const includes = (expression, ...strings) => strings.some(i => i.toLowerCase().includes(expression.toLowerCase()));
 
   export default {
     components: {
@@ -78,18 +81,20 @@
     data() {
       return {
         search: "",
+        onlyActiveLoans: true,
         tab: "inventory"
       };
     },
     helpers: {
       isDeletable: (items, loans, id) =>
         items.find(i => id === i.id).quantity > (loans.filter(i => id === i.id && !i.returned) || []).length,
-      shortFormatDate
+      textFormatDate
     },
     computed: {
-      itemPredicate: ({ search }) => item =>
-        search ? includes(item.description, search) || includes(item.id, search) : true,
-      loanPredicate: ({ search }) => loan => (search ? includes(loan.name, search) || includes(loan.id, search) : true)
+      loans: ({ $allLoans, $allActiveLoans, onlyActiveLoans }) => (onlyActiveLoans ? $allActiveLoans : $allLoans),
+      itemPredicate: ({ search }) => item => (search ? includes(search, item.description, item.id) : true),
+      loanPredicate: ({ search }) => loan =>
+        search ? includes(search, loan.name, loan.id, textFormatDate(loan.lent), textFormatDate(loan.returned)) : true
     }
   };
 </script>
@@ -119,6 +124,9 @@
     overflow: hidden;
     position: relative;
   }
+  table tr {
+    height: 2rem;
+  }
   tr.no-results td {
     text-align: center;
   }
@@ -134,6 +142,12 @@
   }
   .action {
     width: 10%;
+  }
+  .active-filter {
+    text-align: right;
+    font-size: 0.9rem;
+    display: block;
+    padding-right: 0.3rem;
   }
   thead tr th {
     border-bottom: 1px solid var(--fontColor);
