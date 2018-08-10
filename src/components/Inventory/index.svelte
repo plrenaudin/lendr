@@ -119,6 +119,9 @@
     overflow: hidden;
     position: relative;
   }
+  table tr {
+    height: 2rem;
+  }
   tr.no-results td {
     text-align: center;
   }
