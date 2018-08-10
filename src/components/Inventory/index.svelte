@@ -71,7 +71,7 @@
 <script>
   import { textFormatDate } from "../../utils/formatter";
 
-  const includes = (string, expression) => string.toLowerCase().includes(expression.toLowerCase());
+  const includes = (expression, ...strings) => strings.some(i => i.toLowerCase().includes(expression.toLowerCase()));
 
   export default {
     components: {
@@ -92,9 +92,9 @@
     },
     computed: {
       loans: ({ $allLoans, $allActiveLoans, onlyActiveLoans }) => (onlyActiveLoans ? $allActiveLoans : $allLoans),
-      itemPredicate: ({ search }) => item =>
-        search ? includes(item.description, search) || includes(item.id, search) : true,
-      loanPredicate: ({ search }) => loan => (search ? includes(loan.name, search) || includes(loan.id, search) : true)
+      itemPredicate: ({ search }) => item => (search ? includes(search, item.description, item.id) : true),
+      loanPredicate: ({ search }) => loan =>
+        search ? includes(search, loan.name, loan.id, textFormatDate(loan.lent), textFormatDate(loan.returned)) : true
     }
   };
 </script>
