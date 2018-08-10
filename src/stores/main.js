@@ -69,9 +69,6 @@ Promise.all([db.getAllItems(), db.getAllLoans()]).then(([items, loans]) => {
 
 //computed
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
-store.compute("allLoans", ["loans"], (loans = []) => JSON.parse(JSON.stringify(loans)).sort(sortByDate));
-store.compute("allItems", ["items"], (items = []) => JSON.parse(JSON.stringify(items)).sort(sortByDescription));
-store.compute("activeLoans", ["loans"], (loans = []) => loans.filter(i => !i.returned));
 store.compute("activeLoans", ["loans"], (loans = []) => loans.filter(i => !i.returned));
 store.compute("isLendable", ["currentId", "items", "loans"], (currentId, items = [], loans = []) => {
   const item = items.find(i => i.id === currentId);
@@ -81,5 +78,10 @@ store.compute("isLendable", ["currentId", "items", "loans"], (currentId, items =
 store.compute("isReturnable", ["currentId", "loans"], (currentId, loans = []) =>
   loans.find(i => i.id === currentId && !i.returned)
 );
+store.compute("allActiveLoans", ["activeLoans"], (activeLoans = []) =>
+  JSON.parse(JSON.stringify(activeLoans)).sort(sortByDate)
+);
+store.compute("allLoans", ["loans"], (loans = []) => JSON.parse(JSON.stringify(loans)).sort(sortByDate));
+store.compute("allItems", ["items"], (items = []) => JSON.parse(JSON.stringify(items)).sort(sortByDescription));
 store.compute("currentItem", ["currentId", "items"], (currentId, items) => items.find(i => i.id === currentId));
 export default store;
