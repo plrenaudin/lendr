@@ -1,6 +1,6 @@
 <section>
   <label>
-      <input type="text" bind:value=name placeholder="Name" />
+      <input type="text" bind:value=name placeholder="Name" ref:input />
       <Button on:click="lendItem()" bind:disabled icon="upload">Lend</Button>
   </label>
 </section>
@@ -24,6 +24,9 @@
         this.set({ id: "", name: "" });
         this.fire("lent");
       }
+    },
+    oncreate() {
+      this.refs.input.focus();
     }
   };
 </script>

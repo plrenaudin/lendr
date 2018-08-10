@@ -1,7 +1,7 @@
 <section>
   <label>
       {#if !$exists}
-        <input type="text" bind:value=description placeholder="Description" />
+        <input type="text" bind:value=description placeholder="Description" ref:input />
       {/if}
       <Button on:click="addItem()" icon="plus" bind:disabled>{$exists ? "Add one": "Add new"}</Button>
   </label>
@@ -28,6 +28,7 @@
       }
     },
     oncreate() {
+      this.refs.input.focus();
       const found = this.store.get().items.find(i => i.id === this.get().id);
       this.set({ description: found ? found.description : "" });
     }
