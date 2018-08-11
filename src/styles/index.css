@@ -48,3 +48,7 @@ a:hover {
   stroke: currentColor;
   fill: currentColor;
 }
+
+.toastify {
+  z-index: 1000;
+}

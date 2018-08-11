@@ -1,5 +1,6 @@
 import { Store } from "svelte/store.js";
 import db from "./inventoryDb";
+import toast from "../utils/toast";
 
 class MainStore extends Store {
   addItem({ id, description }) {
@@ -15,12 +16,14 @@ class MainStore extends Store {
       this.set({ items: this.get().items.concat(newItem) });
       db.setItem(newItem);
     }
+    toast("Item added");
   }
 
   removeItem({ id, quantity }) {
     const list = this.get().items;
     const found = list.findIndex(i => i.id === id);
     if (!~found) return;
+
     if (quantity > 1) {
       const existing = list[found];
       existing.quantity--;
@@ -30,11 +33,13 @@ class MainStore extends Store {
       list.splice(found, 1);
     }
     this.set({ items: list });
+    toast("Item removed");
   }
 
   lendItem({ id, name }) {
     this.set({ loans: this.get().loans.concat({ id, name, lent: new Date() }) });
     db.lendItem({ id, name });
+    toast("Item lent");
   }
   returnItem({ id, name }) {
     const loans = this.get().loans;
@@ -43,6 +48,7 @@ class MainStore extends Store {
       loans[found].returned = new Date();
       this.set({ loans });
       db.returnItem({ id, name, lent: loans[found].lent });
+      toast("Item returned");
     }
   }
 }
