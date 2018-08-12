@@ -18,7 +18,7 @@
       };
     },
     computed: {
-      disabled: ({ id, description }) => !id || !description
+      disabled: ({ id, description, $exists }) => !$exists && (!id || !description)
     },
     methods: {
       addItem() {
@@ -28,7 +28,7 @@
       }
     },
     oncreate() {
-      this.refs.input.focus();
+      this.refs.input && this.refs.input.focus();
       const found = this.store.get().items.find(i => i.id === this.get().id);
       this.set({ description: found ? found.description : "" });
     }
