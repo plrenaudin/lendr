@@ -78,5 +78,5 @@ const db = {
     });
   }
 };
-
+export { dbPromise };
 export default db;
