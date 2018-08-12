@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-    {#each $allItems.filter(itemPredicate) as item}
+    {#each $sortedItems.filter(itemPredicate) as item}
       <tr>
         <td class="id">{item.id}</td>
         <td>{item.description}</td>
@@ -44,21 +44,26 @@
   <table>
     <thead>
       <tr>
-        <th class="id">S/N</th>
+        <th>Item</th>
         <th>Name</th>
-        <th>Lent</th>
-        <th>Returned</th>
+        <th class="date">Lent</th>
+        {#if !onlyActiveLoans}
+        <th class="date">Returned</th>
+        {/if}
       </tr>
     </thead>
     <tbody>
     {#each loans.filter(loanPredicate) as loan}
       <tr>
-        <td class="id">{loan.id}</td>
+        <td>{loan.description || ''}</td>
         <td>{loan.name}</td>
         <td>{textFormatDate(loan.lent)}</td>
+        {#if !onlyActiveLoans}
+
         <td>
           {loan.returned ? textFormatDate(loan.returned) : ''}
         </td>
+        {/if}
       </tr>
     {:else}
       <tr class="no-results"><td colspan="4">No Results</td></tr>
@@ -91,10 +96,20 @@
       textFormatDate
     },
     computed: {
-      loans: ({ $allLoans, $allActiveLoans, onlyActiveLoans }) => (onlyActiveLoans ? $allActiveLoans : $allLoans),
+      loans: ({ $sortedLoans, $sortedActiveLoans, onlyActiveLoans }) =>
+        onlyActiveLoans ? $sortedActiveLoans : $sortedLoans,
       itemPredicate: ({ search }) => item => (search ? includes(search, item.description, item.id) : true),
       loanPredicate: ({ search }) => loan =>
-        search ? includes(search, loan.name, loan.id, textFormatDate(loan.lent), textFormatDate(loan.returned)) : true
+        search
+          ? includes(
+              search,
+              loan.name,
+              loan.id,
+              loan.description,
+              textFormatDate(loan.lent),
+              textFormatDate(loan.returned)
+            )
+          : true
     }
   };
 </script>
@@ -123,6 +138,9 @@
     text-overflow: ellipsis;
     overflow: hidden;
     position: relative;
+  }
+  table td:hover {
+    white-space: initial;
   }
   table tr {
     height: 2rem;

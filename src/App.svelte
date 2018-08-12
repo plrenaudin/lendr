@@ -111,4 +111,7 @@
     text-align: center;
     justify-content: space-evenly;
   }
+  h2 {
+    text-align: center;
+  }
 </style>
