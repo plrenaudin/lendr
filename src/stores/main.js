@@ -84,10 +84,15 @@ store.compute("isLendable", ["currentId", "items", "loans"], (currentId, items =
 store.compute("isReturnable", ["currentId", "loans"], (currentId, loans = []) =>
   loans.find(i => i.id === currentId && !i.returned)
 );
-store.compute("allActiveLoans", ["activeLoans"], (activeLoans = []) =>
-  JSON.parse(JSON.stringify(activeLoans)).sort(sortByDate)
-);
-store.compute("allLoans", ["loans"], (loans = []) => JSON.parse(JSON.stringify(loans)).sort(sortByDate));
-store.compute("allItems", ["items"], (items = []) => JSON.parse(JSON.stringify(items)).sort(sortByDescription));
+store.compute("sortedLoans", ["loans", "items"], (loans = [], items = []) => {
+  const result = JSON.parse(JSON.stringify(loans)).sort(sortByDate);
+  result.forEach(i => {
+    const found = items.find(item => i.id === item.id);
+    found && (i.description = found.description);
+  });
+  return result;
+});
+store.compute("sortedActiveLoans", ["sortedLoans"], (sortedLoans = []) => sortedLoans.filter(i => !i.returned));
+store.compute("sortedItems", ["items"], (items = []) => JSON.parse(JSON.stringify(items)).sort(sortByDescription));
 store.compute("currentItem", ["currentId", "items"], (currentId, items) => items.find(i => i.id === currentId));
 export default store;
