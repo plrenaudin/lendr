@@ -14,13 +14,13 @@
     <thead>
       <tr>
         <th class="id">S/N</th>
-        <th class="name">Name</th>
+        <th class="description">Name</th>
         <th class="qty">Qty</th>
         <th class="action">&nbsp;</th>
       </tr>
     </thead>
     <tbody>
-    {#each $sortedItems.filter(itemPredicate) as item}
+    {#each $sortedItems.filter(itemPredicate).slice(0,limit+1) as item, index}
       <tr>
         <td class="id">{item.id}</td>
         <td>{item.description}</td>
@@ -31,6 +31,9 @@
           {/if}
         </td>
       </tr>
+      {#if index===limit}
+        <tr class="more"><td colspan="4">Too many results, please filter...</td></tr>
+      {/if}
     {:else}
       <tr class="no-results"><td colspan="4">No Results</td></tr>
     {/each}
@@ -43,9 +46,9 @@
   </label>
   <table>
     <thead>
-      <tr>
-        <th>Item</th>
-        <th>Name</th>
+      <tr class={onlyActiveLoans ? "wide":""}>
+        <th class="item">Item</th>
+        <th class="name">Name</th>
         <th class="date">Lent</th>
         {#if !onlyActiveLoans}
         <th class="date">Returned</th>
@@ -53,7 +56,7 @@
       </tr>
     </thead>
     <tbody>
-    {#each loans.filter(loanPredicate) as loan}
+    {#each loans.filter(loanPredicate).slice(0,limit+1) as loan,index}
       <tr>
         <td>{loan.description || ''}</td>
         <td>{loan.name}</td>
@@ -65,6 +68,9 @@
         </td>
         {/if}
       </tr>
+      {#if index === limit}
+        <tr class="more"><td colspan="4">Too many results, please filter...</td></tr>
+      {/if}
     {:else}
       <tr class="no-results"><td colspan="4">No Results</td></tr>
     {/each}
@@ -76,7 +82,8 @@
 <script>
   import { textFormatDate } from "../../utils/formatter";
 
-  const includes = (expression, ...strings) => strings.some(i => i.toLowerCase().includes(expression.toLowerCase()));
+  const includes = (expression, ...strings) =>
+    strings.some(i => i.toLowerCase && i.toLowerCase().includes(expression.toLowerCase()));
 
   export default {
     components: {
@@ -93,7 +100,8 @@
     helpers: {
       isDeletable: (items, loans, id) =>
         items.find(i => id === i.id).quantity > (loans.filter(i => id === i.id && !i.returned) || []).length,
-      textFormatDate
+      textFormatDate,
+      limit: 100
     },
     computed: {
       loans: ({ $sortedLoans, $sortedActiveLoans, onlyActiveLoans }) =>
@@ -133,33 +141,44 @@
     border-collapse: collapse;
     width: 100%;
   }
+
   table td {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     position: relative;
+    padding-left: 0.3rem;
   }
   table td:hover {
     white-space: initial;
+    word-break: break-all;
   }
   table tr {
     height: 2rem;
   }
-  tr.no-results td {
+  tr.no-results td,
+  tr.more td {
     text-align: center;
   }
   .id {
     width: 20%;
     font-size: 0.8rem;
   }
-  .name {
+  .description {
     width: 60%;
   }
-  .qty {
-    width: 10%;
-  }
+  .qty,
   .action {
     width: 10%;
+  }
+  .wide .item {
+    width: 40%;
+  }
+  .wide .name {
+    width: 30%;
+  }
+  .wide .date {
+    width: 30%;
   }
   .active-filter {
     text-align: right;
