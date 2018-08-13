@@ -1,8 +1,9 @@
-<Button on:click="set({displayScanner: !displayScanner})" icon="barcode" big>Scan</Button>
+<Button on:click="set({displayScanner: !displayScanner})" icon="barcode" big>{t("scanButton")}</Button>
 {#if displayScanner}
   <Scanner on:scanned="onScan(event)" on:dismiss="set({displayScanner:false})" />
 {/if}
 <script>
+  import t from "../../utils/wording";
   export default {
     data() {
       return {
@@ -18,6 +19,9 @@
         this.set({ displayScanner: false });
         this.fire("scanResult", { data });
       }
+    },
+    helpers: {
+      t
     }
   };
 </script>

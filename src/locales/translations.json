@@ -1,0 +1,39 @@
+{
+  "idInputPlaceholder": "Item S/N",
+  "scanButton": "Scan",
+  "action": {
+    "add": "Add",
+    "return": "Return",
+    "lend": "Lend",
+    "cancel": "Cancel",
+    "addAction": "Add new",
+    "addOne": "Add one",
+    "returnAction": "Return",
+    "lendAction": "Lend"
+  },
+  "inventory": {
+    "button": "Show Inventory",
+    "find": "Find Anywhere",
+    "close": "Close",
+    "tab": {
+      "inventory": "Inventory",
+      "loans": "Loans"
+    },
+    "id": "S/N",
+    "description": "Name",
+    "name": "Name",
+    "quantity": "Qty",
+    "activeOnly": "Active only",
+    "item": "Item",
+    "lent": "Lent",
+    "returned": "Returned",
+    "limit": "Too many results, please filter...",
+    "noResults": "No Results"
+  },
+  "notification": {
+    "added": "Item added",
+    "removed": "Item removed",
+    "lent": "Item lent",
+    "returned": "Item returned"
+  }
+}

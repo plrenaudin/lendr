@@ -3,7 +3,7 @@
     <div class="scan-button-container">
       <ScanButton on:scanResult="$set({currentId: event.data})" />
     </div>
-    <input bind:value="$currentId" type="text" disabled={action !== ''} class="main-input" placeholder="Item S/N" />
+    <input bind:value="$currentId" type="text" disabled={action !== ''} class="main-input" placeholder={t("idInputPlaceholder")} />
   </div>
   {#if $currentItem}
     <h2>{$currentItem.description} ({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</h2>
@@ -11,21 +11,21 @@
   {#if $currentId}
     <div class="button-group">
       <Button on:click="set({action:'add'})" icon="plus">
-        Add
+        {t("action.add")}
       </Button>
       {#if $isLendable}
         <Button on:click="set({action:'lend'})" icon="upload">
-          Lend
+          {t("action.lend")} 
         </Button>
       {/if}
       {#if $isReturnable}
         <Button on:click="set({action:'return'})" icon="download">
-          Return
+          {t("action.return")} 
         </Button>
       {/if}
       {#if action}
         <Button on:click="reset()" icon="cancel">
-          Cancel
+          {t("action.cancel")} 
         </Button>
       {/if}
     </div>
@@ -38,7 +38,7 @@
     {/if}
   {/if}
   <Button on:click="set({displayInventory: !displayInventory})" icon="drawer">
-    {displayInventory? "Hide":"Show"} Inventory
+    {t("inventory.button")}
   </Button>
   {#if displayInventory}
     <div class="inventory-container" transition:fly="{y:200, duration:500}">
@@ -49,6 +49,7 @@
 
 <script>
   import { fly } from "svelte-transitions";
+  import t from "./utils/wording.js";
 
   export default {
     components: {
@@ -69,6 +70,9 @@
       reset() {
         this.set({ action: "" });
       }
+    },
+    helpers: {
+      t
     },
     transitions: { fly }
   };

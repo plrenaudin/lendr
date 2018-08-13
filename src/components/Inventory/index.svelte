@@ -1,21 +1,21 @@
 <main>
   <div class="header">
-    <input class="search" type="search" placeholder="Find Anywhere" bind:value=search /><Button on:click="fire('close')" icon="cancel">Close</Button>
+    <input class="search" type="search" placeholder={t("inventory.find")} bind:value=search /><Button on:click="fire('close')" icon="cancel">{t('inventory.close')}</Button>
   </div>
   <nav>
     <ul>
-      <li on:click="set({tab: 'inventory'})" class={tab === 'inventory' ? 'selected':''}><Icon name="drawer" />Inventory</li>
-      <li on:click="set({tab: 'loans'})" class={tab === 'loans' ? 'selected':''}><Icon name="upload" />Loans</li>
+      <li on:click="set({tab: 'inventory'})" class={tab === 'inventory' ? 'selected':''}><Icon name="drawer" />{t("inventory.tab.inventory")}</li>
+      <li on:click="set({tab: 'loans'})" class={tab === 'loans' ? 'selected':''}><Icon name="upload" />{t("inventory.tab.loans")}</li>
     </ul>
   </nav>
   {#if tab ==="inventory"}
-  <h3><Icon name="drawer" />Inventory</h3>
+  <h3><Icon name="drawer" />{t("inventory.tab.inventory")}</h3>
   <table>
     <thead>
       <tr>
-        <th class="id">S/N</th>
-        <th class="description">Name</th>
-        <th class="qty">Qty</th>
+        <th class="id">{t("inventory.id")}</th>
+        <th class="description">{t("inventory.description")}</th>
+        <th class="qty">{t("inventory.quantity")}</th>
         <th class="action">&nbsp;</th>
       </tr>
     </thead>
@@ -32,26 +32,26 @@
         </td>
       </tr>
       {#if index===limit}
-        <tr class="more"><td colspan="4">Too many results, please filter...</td></tr>
+        <tr class="more"><td colspan="4">{t("inventory.limit")}</td></tr>
       {/if}
     {:else}
-      <tr class="no-results"><td colspan="4">No Results</td></tr>
+      <tr class="no-results"><td colspan="4">{t("inventory.noResults")}</td></tr>
     {/each}
     </tbody>
   </table>
   {:else}
-  <h3><Icon name="upload" />Loans</h3>
+  <h3><Icon name="upload" />{t("inventory.tab.loans")}</h3>
   <label class="active-filter">
-    <input type="checkbox" bind:checked="onlyActiveLoans" /> Active only
+    <input type="checkbox" bind:checked="onlyActiveLoans" />{t("inventory.activeOnly")}
   </label>
   <table>
     <thead>
       <tr class={onlyActiveLoans ? "wide":""}>
-        <th class="item">Item</th>
-        <th class="name">Name</th>
-        <th class="date">Lent</th>
+        <th class="item">{t("inventory.item")}</th>
+        <th class="name">{t("inventory.name")}</th>
+        <th class="date">{t("inventory.lent")}</th>
         {#if !onlyActiveLoans}
-        <th class="date">Returned</th>
+        <th class="date">{t("inventory.returned")}</th>
         {/if}
       </tr>
     </thead>
@@ -69,10 +69,10 @@
         {/if}
       </tr>
       {#if index === limit}
-        <tr class="more"><td colspan="4">Too many results, please filter...</td></tr>
+        <tr class="more"><td colspan="4">{t("inventory.limit")}</td></tr>
       {/if}
     {:else}
-      <tr class="no-results"><td colspan="4">No Results</td></tr>
+      <tr class="no-results"><td colspan="4">{t("inventory.noResults")}</td></tr>
     {/each}
     </tbody>
   </table>
@@ -81,7 +81,7 @@
 
 <script>
   import { textFormatDate } from "../../utils/formatter";
-
+  import t from "../../utils/wording.js";
   const includes = (expression, ...strings) =>
     strings.some(i => i.toLowerCase && i.toLowerCase().includes(expression.toLowerCase()));
 
@@ -101,6 +101,7 @@
       isDeletable: (items, loans, id) =>
         items.find(i => id === i.id).quantity > (loans.filter(i => id === i.id && !i.returned) || []).length,
       textFormatDate,
+      t,
       limit: 100
     },
     computed: {
