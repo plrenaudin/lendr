@@ -4,10 +4,11 @@
       <li class={name === loaner ? 'selected': ''}><a on:click="set({name:loaner})" role="button">{loaner}</a></li>
     {/each}
   </ul>
-  <Button on:click="returnItem()" bind:disabled icon="download">Return</Button>
+  <Button on:click="returnItem()" bind:disabled icon="download">{t("action.returnAction")}</Button>
 </section>
 
 <script>
+  import t from "../../utils/wording";
   export default {
     components: {
       Button: "../Button"
@@ -27,6 +28,9 @@
         this.set({ id: "", name: "" });
         this.fire("returned");
       }
+    },
+    helpers: {
+      t
     }
   };
 </script>

@@ -3,11 +3,12 @@
       {#if !$exists}
         <input type="text" bind:value=description placeholder="Description" ref:input />
       {/if}
-      <Button on:click="addItem()" icon="plus" bind:disabled>{$exists ? "Add one": "Add new"}</Button>
+      <Button on:click="addItem()" icon="plus" bind:disabled>{t($exists ? "action.addOne": "action.addAction")}</Button>
   </label>
 </section>
 
 <script>
+  import t from "../../utils/wording";
   export default {
     components: {
       Button: "../Button"
@@ -26,6 +27,9 @@
         this.set({ id: "", description: "" });
         this.fire("added");
       }
+    },
+    helpers: {
+      t
     },
     oncreate() {
       this.refs.input && this.refs.input.focus();
