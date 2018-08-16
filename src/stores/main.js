@@ -2,6 +2,7 @@ import { Store } from "svelte/store.js";
 import db from "./inventoryDb";
 import toast from "../utils/toast";
 import t from "../utils/wording";
+import isbn from "node-isbn";
 
 class MainStore extends Store {
   addItem({ id, description }) {
@@ -57,6 +58,7 @@ class MainStore extends Store {
 const store = new MainStore({
   currentId: "",
   scanResult: "",
+  isbnResult: "",
   items: [],
   loans: []
 });
@@ -73,7 +75,21 @@ Promise.all([db.getAllItems(), db.getAllLoans()]).then(([items, loans]) => {
     loans
   });
 });
-
+store.on("state", ({ changed, current }) => {
+  if (changed.currentId) {
+    store.set({ isbnResult: "" });
+    current.currentId &&
+      [10, 13].includes(current.currentId.length) &&
+      isbn
+        .resolve(current.currentId)
+        .then(function(book) {
+          store.set({ isbnResult: `${book.title} - ${(book.authors || []).join(", ")}` });
+        })
+        .catch(function(err) {
+          console.warn("Book not found", err);
+        });
+  }
+});
 //computed
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
 store.compute("activeLoans", ["loans"], (loans = []) => loans.filter(i => !i.returned));

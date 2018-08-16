@@ -6,7 +6,9 @@
     <input bind:value="$currentId" type="text" disabled={action !== ''} class="main-input" placeholder={t("idInputPlaceholder")} />
   </div>
   {#if $currentItem}
-    <h2>{$currentItem.description} ({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</h2>
+    <h2>{$currentItem.description || $isbnResult} ({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</h2>
+  {:elseif $isbnResult}
+    <h2>{$isbnResult}</h2>
   {/if}
   {#if $currentId}
     <div class="button-group">
