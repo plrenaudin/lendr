@@ -63,12 +63,17 @@ const db = {
       return tx.complete;
     });
   },
-  import(data) {
-    return dbPromise.then(db => {
-      const tx = db.transaction("inventory", "readwrite");
-      data.forEach(item => tx.objectStore("inventory").put(item, item.date));
-      return tx.complete;
-    });
+  import({ items, loans }) {
+    return dbPromise
+      .then(db => {
+        const tx = db.transaction(["inventory", "loans"], "readwrite");
+        const inventoryStore = tx.objectStore("inventory");
+        const loanStore = tx.objectStore("loans");
+        items.forEach(({ id, description, quantity }) => inventoryStore.put({ id, description, quantity }));
+        loans.forEach(({ id, lent, returned, name }) => loanStore.put({ id, lent, returned, name }));
+        return tx.complete;
+      })
+      .catch(console.error);
   },
   deleteItem({ id }) {
     return dbPromise.then(db => {
