@@ -21,7 +21,9 @@ input {
   background-color: var(--bgColor);
   box-shadow: 0 1px 3px var(--shadowColor);
 }
-
+section {
+  margin: 0.5rem 0;
+}
 .icon {
   margin: 0 0.3rem;
 }

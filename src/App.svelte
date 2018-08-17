@@ -14,7 +14,7 @@
     <Card className="description">{$isbnResult}</Card>
   {/if}
   {#if $currentId}
-    <div class="button-group">
+    <section class="button-group">
       <Button on:click="set({action:'add'})" icon="plus">
         {t("action.add")}
       </Button>
@@ -33,7 +33,7 @@
           {t("action.cancel")} 
         </Button>
       {/if}
-    </div>
+    </section>
     {#if action === "add"}
       <AddItemForm bind:id="$currentId" on:added="reset()"/>
     {:elseif action ==="lend"}
@@ -104,7 +104,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 100vh;
+    min-height: 100vh;
   }
   .scanning {
     display: flex;
