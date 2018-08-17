@@ -6,9 +6,12 @@
     <input bind:value="$currentId" type="text" disabled={action !== ''} class="main-input" placeholder={t("idInputPlaceholder")} />
   </div>
   {#if $currentItem}
-    <h2>{$currentItem.description || $isbnResult} ({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</h2>
+    <Card className="description">
+      {$currentItem.description}
+      <span class="available">({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</span>
+    </Card>
   {:elseif $isbnResult}
-    <h2>{$isbnResult}</h2>
+    <Card className="description">{$isbnResult}</Card>
   {/if}
   {#if $currentId}
     <div class="button-group">
@@ -55,6 +58,7 @@
 
   export default {
     components: {
+      Card: "./components/Card",
       Button: "./components/Button",
       ScanButton: "./components/ScanButton",
       AddItemForm: "./components/AddItemForm",
@@ -116,6 +120,11 @@
     display: flex;
     text-align: center;
     justify-content: space-evenly;
+  }
+  .available {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.9rem;
   }
   h2 {
     text-align: center;

@@ -52,3 +52,10 @@ a:hover {
 .toastify {
   z-index: 1000;
 }
+
+.card.description {
+  width: 90%;
+  text-align: center;
+  background-color: var(--descriptionColor);
+  padding: 1rem;
+}
