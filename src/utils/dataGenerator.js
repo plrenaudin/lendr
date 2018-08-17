@@ -1,4 +1,4 @@
-import { dbPromise } from "../stores/inventoryDb";
+import db from "../stores/inventoryDb";
 
 const nbUsers = 45;
 const nbItems = 1000;
@@ -42,14 +42,5 @@ const generateLoans = items => {
 export default () => {
   const items = generateItems();
   const loans = generateLoans(items);
-  dbPromise
-    .then(db => {
-      const tx = db.transaction(["inventory", "loans"], "readwrite");
-      const inventoryStore = tx.objectStore("inventory");
-      const loanStore = tx.objectStore("loans");
-      items.forEach(({ id, description, quantity }) => inventoryStore.put({ id, description, quantity }));
-      loans.forEach(({ id, lent, returned, name }) => loanStore.put({ id, lent, returned, name }));
-      return tx.complete;
-    })
-    .catch(console.error);
+  db.import({ items, loans });
 };

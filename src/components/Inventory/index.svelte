@@ -32,13 +32,16 @@
         </td>
       </tr>
       {#if index===limit}
-        <tr class="more"><td colspan="4">{t("inventory.limit")}</td></tr>
+        <tr class="centered"><td colspan="4">{t("inventory.limit")}</td></tr>
       {/if}
     {:else}
-      <tr class="no-results"><td colspan="4">{t("inventory.noResults")}</td></tr>
+      <tr class="centered"><td colspan="4">{t("inventory.noResults")}</td></tr>
     {/each}
     </tbody>
   </table>
+  <div class="import-export">
+    {t("importExport")}<ImportExport />
+  </div>
   {:else}
   <h3><Icon name="upload" />{t("inventory.tab.loans")}</h3>
   <label class="active-filter">
@@ -69,14 +72,15 @@
         {/if}
       </tr>
       {#if index === limit}
-        <tr class="more"><td colspan="4">{t("inventory.limit")}</td></tr>
+        <tr class="centered"><td colspan="4">{t("inventory.limit")}</td></tr>
       {/if}
     {:else}
-      <tr class="no-results"><td colspan="4">{t("inventory.noResults")}</td></tr>
+      <tr class="centered"><td colspan="4">{t("inventory.noResults")}</td></tr>
     {/each}
     </tbody>
   </table>
   {/if}
+
 </main>
 
 <script>
@@ -87,6 +91,7 @@
 
   export default {
     components: {
+      ImportExport: "../ImportExport",
       Button: "../Button",
       Icon: "../Icon"
     },
@@ -157,9 +162,19 @@
   table tr {
     height: 2rem;
   }
-  tr.no-results td,
-  tr.more td {
+  tr.centered td {
     text-align: center;
+  }
+  .import-export {
+    display: flex;
+    border-top: 1px solid var(--fontColor);
+    padding-top: 0.3rem;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--bgColor);
   }
   .id {
     width: 20%;

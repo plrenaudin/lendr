@@ -35,5 +35,6 @@
     "removed": "Item removed",
     "lent": "Item lent",
     "returned": "Item returned"
-  }
+  },
+  "importExport": "Import/Export all data"
 }
