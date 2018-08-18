@@ -9,7 +9,6 @@
     </ul>
   </nav>
   {#if tab ==="inventory"}
-  <h3><Icon name="drawer" />{t("inventory.tab.inventory")}</h3>
   <table>
     <thead>
       <tr>
@@ -21,13 +20,13 @@
     </thead>
     <tbody>
     {#each $sortedItems.filter(itemPredicate).slice(0,limit+1) as item, index}
-      <tr>
+      <tr on:click="select(item.id)">
         <td class="id">{item.id}</td>
         <td>{item.description}</td>
         <td>{item.quantity}</td>
         <td>
           {#if isDeletable($items,$loans,item.id)}
-            <Button on:click="$removeItem(item)" icon="bin" />
+            <Button on:click="removeItem(item)" icon="bin" />
           {/if}
         </td>
       </tr>
@@ -43,7 +42,6 @@
     {t("importExport")}<ImportExport />
   </div>
   {:else}
-  <h3><Icon name="upload" />{t("inventory.tab.loans")}</h3>
   <label class="active-filter">
     <input type="checkbox" bind:checked="onlyActiveLoans" />{t("inventory.activeOnly")}
   </label>
@@ -65,10 +63,9 @@
         <td>{loan.name}</td>
         <td>{textFormatDate(loan.lent)}</td>
         {#if !onlyActiveLoans}
-
-        <td>
-          {loan.returned ? textFormatDate(loan.returned) : ''}
-        </td>
+          <td>
+            {loan.returned ? textFormatDate(loan.returned) : ''}
+          </td>
         {/if}
       </tr>
       {#if index === limit}
@@ -87,7 +84,7 @@
   import { textFormatDate } from "../../utils/formatter";
   import t from "../../utils/wording.js";
   const includes = (expression, ...strings) =>
-    strings.some(i => i.toLowerCase && i.toLowerCase().includes(expression.toLowerCase()));
+    strings.some(i => i && i.toLowerCase && i.toLowerCase().includes(expression.toLowerCase()));
 
   export default {
     components: {
@@ -124,6 +121,16 @@
               textFormatDate(loan.returned)
             )
           : true
+    },
+    methods: {
+      select(id) {
+        this.store.set({ currentId: id });
+        this.fire("close");
+      },
+      removeItem(item) {
+        event.stopPropagation();
+        this.store.removeItem(item);
+      }
     }
   };
 </script>
@@ -209,6 +216,7 @@
     display: flex;
     list-style-type: none;
     justify-content: space-around;
+    margin-bottom: 1rem;
   }
   nav ul li {
     width: 100%;

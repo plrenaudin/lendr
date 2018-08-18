@@ -75,10 +75,14 @@ Promise.all([db.getAllItems(), db.getAllLoans()]).then(([items, loans]) => {
     loans
   });
 });
+/**
+ * Query ISBN database on state change and only if not already in inventory
+ */
 store.on("state", ({ changed, current }) => {
   if (changed.currentId) {
     store.set({ isbnResult: "" });
     current.currentId &&
+      !store.get().exists &&
       [10, 13].includes(current.currentId.length) &&
       isbn
         .resolve(current.currentId)
