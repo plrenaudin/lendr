@@ -9,7 +9,6 @@
     </ul>
   </nav>
   {#if tab ==="inventory"}
-  <h3><Icon name="drawer" />{t("inventory.tab.inventory")}</h3>
   <table>
     <thead>
       <tr>
@@ -43,7 +42,6 @@
     {t("importExport")}<ImportExport />
   </div>
   {:else}
-  <h3><Icon name="upload" />{t("inventory.tab.loans")}</h3>
   <label class="active-filter">
     <input type="checkbox" bind:checked="onlyActiveLoans" />{t("inventory.activeOnly")}
   </label>
@@ -218,6 +216,7 @@
     display: flex;
     list-style-type: none;
     justify-content: space-around;
+    margin-bottom: 1rem;
   }
   nav ul li {
     width: 100%;
