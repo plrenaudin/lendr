@@ -1,5 +1,5 @@
 {
-  "idInputPlaceholder": "Item S/N",
+  "idInputPlaceholder": "Barcode number",
   "scanButton": "Scan",
   "action": {
     "add": "Add",
@@ -19,7 +19,7 @@
       "inventory": "Inventory",
       "loans": "Loans"
     },
-    "id": "S/N",
+    "id": "Id",
     "description": "Name",
     "name": "Name",
     "quantity": "Qty",
