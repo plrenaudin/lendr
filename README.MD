@@ -1,4 +1,4 @@
-# lendr
+# Lendr
 
 Lendr help you keeping track of your loaned books, games, discs etc.
 
