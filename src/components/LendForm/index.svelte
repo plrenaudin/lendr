@@ -1,4 +1,4 @@
-<section>
+<section class="lendForm">
   <label>
       <input type="text" bind:value=name placeholder="Name" ref:input />
       <Button on:click="lendItem()" bind:disabled icon="upload">{t("action.lendAction")}</Button>

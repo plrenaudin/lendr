@@ -3,6 +3,7 @@ import Toastify from "toastify-js";
 export default text => {
   Toastify({
     text,
-    className: "info"
+    className: "info",
+    positionLeft: true
   }).showToast();
 };

@@ -2,9 +2,10 @@
   "extends": ["eslint:recommended"],
   "env": {
     "browser": true,
-    "es6": true
+    "es6": true,
+    "cypress/globals": true
   },
-  "plugins": ["html"],
+  "plugins": ["html", "cypress"],
   "settings": {
     "html/html-extensions": [".html", ".svelte"]
   },
