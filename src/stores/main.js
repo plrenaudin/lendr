@@ -84,6 +84,7 @@ store.on("state", ({ changed, current }) => {
     current.currentId &&
       !store.get().exists &&
       [10, 13].includes(current.currentId.length) &&
+      /^[0-9]+$/.test(current.currentId) &&
       isbn
         .resolve(current.currentId)
         .then(function(book) {
