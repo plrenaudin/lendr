@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:1234",
+  "chromeWebSecurity": false,
+  "fixturesFolder": "test/fixtures",
+  "integrationFolder": "test/integration",
+  "pluginsFile": "test/plugins",
+  "screenshotsFolder": "test/screenshots",
+  "supportFile": "test/support"
+}

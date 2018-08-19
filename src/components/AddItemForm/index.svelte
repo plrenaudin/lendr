@@ -1,4 +1,4 @@
-<section>
+<section class="addForm">
   <label>
       {#if !$exists}
         <input type="text" bind:value=description placeholder="Description" ref:input />
