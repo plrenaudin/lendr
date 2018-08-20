@@ -1,9 +1,13 @@
 import Toastify from "toastify-js";
 
-export default text => {
+export default (text, opts) => {
+  const options = {
+    className: "info",
+    positionLeft: true,
+    ...opts
+  };
   Toastify({
     text,
-    className: "info",
-    positionLeft: true
+    ...options
   }).showToast();
 };
