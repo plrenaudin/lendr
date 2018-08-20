@@ -54,7 +54,8 @@
 
 <script>
   import { fly } from "svelte-transitions";
-  import t from "./utils/wording.js";
+  import t from "./utils/wording";
+  import toast from "./utils/toast";
 
   export default {
     components: {
@@ -80,7 +81,14 @@
     helpers: {
       t
     },
-    transitions: { fly }
+    transitions: { fly },
+    oncreate() {
+      window["isUpdateAvailable"].then(isAvailable => {
+        if (isAvailable) {
+          toast(t("update"), { duration: 3600000, destination: "/" });
+        }
+      });
+    }
   };
 </script>
 

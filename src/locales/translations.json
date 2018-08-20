@@ -36,5 +36,6 @@
     "lent": "Item lent",
     "returned": "Item returned"
   },
-  "importExport": "Import/Export all data"
+  "importExport": "Import/Export all data",
+  "update": "A new update is available, click here to reload."
 }
