@@ -61,4 +61,33 @@ a:hover {
   text-align: center;
   background-color: var(--descriptionColor);
   padding: 1rem;
+  margin-top: 0;
+}
+.card.button-group {
+  padding: 1rem;
+  margin: 0 0 0.3rem 0;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  position: relative;
+}
+.card.button-group button {
+  margin: 0.5rem;
+  flex: 0 0 40%;
+}
+.card.button-group:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  top: 1px;
+  left: 50%;
+  margin-left: 1rem;
+  border: 0.5rem solid black;
+  border-color: transparent transparent var(--bgColor) var(--bgColor);
+  transform-origin: 0 0;
+  transform: rotate(135deg);
+  box-shadow: -2px 2px 1px 0 rgb(210, 210, 210);
 }

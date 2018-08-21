@@ -1,14 +1,14 @@
 :root {
   --bgColor: #f8f8f8;
-  --buttonColor: #ffd54f;
-  --greenColor: #4caf50;
+  --buttonColor: #ffe082;
+  --greenColor: #a5d6a7;
   --shadowColor: #888;
   --descriptionColor: #ccc;
   --linkColor: #2196f3;
-  --blueColor: #42a5f5;
+  --blueColor: #81d4fa;
   --purpleColor: #ce93d8;
-  --redColor: #f44336;
-  --linkHoverColor: #03a9f4;
+  --redColor: #ef5350;
+  --linkHoverColor: #42a5f5;
   --fontColor: #111111;
   --maxWidth: 800px;
 }

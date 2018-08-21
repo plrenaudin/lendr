@@ -48,6 +48,7 @@
   li {
     padding: 0.3rem 1rem;
     text-align: center;
+    text-decoration: underline;
   }
   li.selected {
     border: 1px solid var(--fontColor);
