@@ -31,6 +31,7 @@
     border-radius: 0.5rem;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     box-shadow: 0 1px 3px var(--shadowColor);
     transition: all 300ms ease-in;
   }
@@ -38,6 +39,9 @@
   button:active {
     box-shadow: none;
     outline: none;
+  }
+  button:hover {
+    cursor: pointer;
   }
   button.big {
     padding: 1rem;

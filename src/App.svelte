@@ -1,47 +1,56 @@
 <div class="content">
-  <div class="scanning">
-    <div class="scan-button-container">
-      <ScanButton on:scanResult="$set({currentId: event.data})" />
+  <div class="scanning-actions">
+    {#if action === ''}
+    <div class="scanning" transition:fly="{y:-200, duration:500}">
+      <div class="scan-button-container">
+        <ScanButton on:scanResult="$set({currentId: event.data})" />
+      </div>
+      <input bind:value="$currentId" type="text" disabled={action !== ''} class="main-input" placeholder={t("idInputPlaceholder")} />
     </div>
-    <input bind:value="$currentId" type="text" disabled={action !== ''} class="main-input" placeholder={t("idInputPlaceholder")} />
-  </div>
-  {#if $currentItem}
-    <Card className="description">
-      {$currentItem.description}
-      <span class="available">({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</span>
-    </Card>
-  {:elseif $isbnResult}
-    <Card className="description">{$isbnResult}</Card>
-  {/if}
-  {#if $currentId}
-    <section class="button-group">
-      <Button on:click="set({action:'add'})" icon="plus">
-        {t("action.add")}
-      </Button>
-      {#if $isLendable}
-        <Button on:click="set({action:'lend'})" icon="upload">
-          {t("action.lend")} 
-        </Button>
-      {/if}
-      {#if $isReturnable}
-        <Button on:click="set({action:'return'})" icon="download">
-          {t("action.return")} 
-        </Button>
-      {/if}
-      {#if action}
-        <Button on:click="reset()" icon="cancel">
-          {t("action.cancel")} 
-        </Button>
-      {/if}
-    </section>
-    {#if action === "add"}
-      <AddItemForm bind:id="$currentId" on:added="reset()"/>
-    {:elseif action ==="lend"}
-      <LendForm bind:id="$currentId" on:lent="reset()"/>
-    {:elseif action ==="return"}
-      <ReturnForm bind:id="$currentId" on:returned="reset()"/>
     {/if}
-  {/if}
+    {#if $currentId}
+      <Card className="description">
+      {#if $currentItem}
+        {$currentItem.description}
+        <span class="available">({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</span>
+      {:elseif $isbnResult}
+        {$isbnResult}
+      {:else}
+        {t("notFound")}
+      {/if}
+      </Card>
+    {/if}
+    {#if $currentId}
+      <Card className="button-group">
+        <Button on:click="set({action:'add'})" icon="plus">
+          {t("action.add")}
+        </Button>
+        {#if $isLendable}
+          <Button on:click="set({action:'lend'})" icon="upload">
+            {t("action.lend")} 
+          </Button>
+        {/if}
+        {#if $isReturnable}
+          <Button on:click="set({action:'return'})" icon="download">
+            {t("action.return")} 
+          </Button>
+        {/if}
+        {#if action}
+          <Button on:click="reset()" icon="cancel">
+            {t("action.cancel")} 
+          </Button>
+        {/if}
+      </Card>
+      {#if action === "add"}
+        <AddItemForm bind:id="$currentId" on:added="reset()"/>
+      {:elseif action ==="lend"}
+        <LendForm bind:id="$currentId" on:lent="reset()"/>
+      {:elseif action ==="return"}
+        <ReturnForm bind:id="$currentId" on:returned="reset()"/>
+      {/if}
+    {/if}
+  </div>
+
   <Button on:click="set({displayInventory: !displayInventory})" icon="drawer">
     {t("inventory.button")}
   </Button>
@@ -102,6 +111,7 @@
   }
   .inventory-container {
     position: fixed;
+    z-index: 10;
     background: var(--bgColor);
     overflow: auto;
     top: 0;
@@ -122,18 +132,21 @@
   }
   .scan-button-container {
     margin: 1rem auto;
+    z-index: 2;
   }
-  .button-group {
-    width: 100%;
-    display: flex;
-    text-align: center;
-    justify-content: space-evenly;
-  }
+
   .available {
     display: block;
     margin-top: 1rem;
     font-size: 0.9rem;
   }
+  .scanning-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
   h2 {
     text-align: center;
   }

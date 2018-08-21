@@ -39,6 +39,7 @@
   }
   .overlay {
     position: fixed;
+    z-index: 10;
     width: 100%;
     height: 100%;
     background-color: black;
@@ -52,6 +53,7 @@
   }
   #scanner {
     position: fixed;
+    z-index: 11;
     top: 0;
   }
 </style>
