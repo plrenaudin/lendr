@@ -44,9 +44,7 @@ describe("Adds a new entry and lends it", () => {
       .contains("Loans")
       .click();
     cy.get("table tr td:nth-of-type(2)").contains("Martine");
-    cy.get("button")
-      .contains("Close")
-      .click();
+    cy.get(".cancel").click();
   });
 });
 
@@ -89,8 +87,6 @@ describe("Returns the item", () => {
       .contains("Active only")
       .click();
     cy.get("table tr td:nth-of-type(2)").contains("Martine");
-    cy.get("button")
-      .contains("Close")
-      .click();
+    cy.get(".cancel").click();
   });
 });
