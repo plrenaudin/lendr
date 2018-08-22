@@ -8,6 +8,7 @@
     "start:https": "parcel index.html --https",
     "build": "parcel build index.html",
     "test": "npm run-script lint",
+    "test:ci": "npm run test && npm start & cypress run",
     "test:cypress": "cypress run",
     "test:cypress:open": "cypress open",
     "lint": "eslint --fix --ext .js,.svelte ."

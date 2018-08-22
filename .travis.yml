@@ -1,8 +1,15 @@
 language: node_js
 node_js:
-- '8'
+  - "10"
+cache:
+  directories:
+    - ~/.npm
+    - ~/.cache
+install:
+  - npm ci
 before_deploy:
-- npm run build
+  - npm run test:ci
+  - npm run build
 deploy:
   provider: pages
   skip-cleanup: true
@@ -12,4 +19,4 @@ deploy:
     branch: master
 env:
   matrix:
-  - secure: d2FO4r6jY/4jbBKge4lp0JfAdw6HPZqHpUCyUsK3H43p6y38Qu5pPxMr38iHUlCHteBnXJ7bmxGz6iCxCNdHBpOW7u3VmYakVRADiIA9sniGKu+C5++zP0sHmppxlBH/QhSrds17lvQ/plIG0ZvYT2WG1ljNA3MDvjqvAiGvppGy/spW8ipp/Z9uljHaQcUbe/+B9Xov5LAD3YZLHXZ0wwPTUhTSW1NvolfGA2MYDQzZfUUTsQAtfRhM4ap1XuFikbvxTAu6KQ2MShgaonV1Bp8gG9pxRd5sOjTN1vx1IazBEhszd0z2ikhg5uj5hBvkreu1Yqr/PiYhpvT4jPe77FWkdfs6CcRMvIKQB3bu0XkHOH+ClEOm0Cbc8TKyAtJ3V/BN09d3J5TiZG8Z5iSIhK3lHhdkAXXljjGpeU0h7bc2GfHAI1a784eOUUkc6/E3g2FpP8Dtol9cpIsJIa6QXKuPFzQPb5fL4OLL3kQo63yLFm/lzJRIJ/mOOe+voIQWucvzq2/cBlHO6a7+cCqqnEzfP7kkwPTyRuCMGQC068V0wPQUjYFu+BNa42oEOUYJsZIwzPh1e0o+y3OoC4H99SvvqPejGyW3Y0EfW+z/Q7Phx7Eo6poCxQdWMDfbJDO67TZ0vIpgEAK8DjYMd7hGAAUITvtJ+mGSuvoGokybtSw=
+    - secure: d2FO4r6jY/4jbBKge4lp0JfAdw6HPZqHpUCyUsK3H43p6y38Qu5pPxMr38iHUlCHteBnXJ7bmxGz6iCxCNdHBpOW7u3VmYakVRADiIA9sniGKu+C5++zP0sHmppxlBH/QhSrds17lvQ/plIG0ZvYT2WG1ljNA3MDvjqvAiGvppGy/spW8ipp/Z9uljHaQcUbe/+B9Xov5LAD3YZLHXZ0wwPTUhTSW1NvolfGA2MYDQzZfUUTsQAtfRhM4ap1XuFikbvxTAu6KQ2MShgaonV1Bp8gG9pxRd5sOjTN1vx1IazBEhszd0z2ikhg5uj5hBvkreu1Yqr/PiYhpvT4jPe77FWkdfs6CcRMvIKQB3bu0XkHOH+ClEOm0Cbc8TKyAtJ3V/BN09d3J5TiZG8Z5iSIhK3lHhdkAXXljjGpeU0h7bc2GfHAI1a784eOUUkc6/E3g2FpP8Dtol9cpIsJIa6QXKuPFzQPb5fL4OLL3kQo63yLFm/lzJRIJ/mOOe+voIQWucvzq2/cBlHO6a7+cCqqnEzfP7kkwPTyRuCMGQC068V0wPQUjYFu+BNa42oEOUYJsZIwzPh1e0o+y3OoC4H99SvvqPejGyW3Y0EfW+z/Q7Phx7Eo6poCxQdWMDfbJDO67TZ0vIpgEAK8DjYMd7hGAAUITvtJ+mGSuvoGokybtSw=
