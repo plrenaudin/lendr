@@ -21,9 +21,7 @@ describe("Adds a new entry", () => {
       .contains("Show Inventory")
       .click();
     cy.get(".inventory-container table tbody td").contains("9782215087229");
-    cy.get("button")
-      .contains("Close")
-      .click();
+    cy.get(".cancel").click();
   });
 });
 
@@ -62,8 +60,6 @@ describe("Removes an entry", () => {
       .should("be.visible", "Should show the toast on item removed");
     tableRow.get(".bin").click();
     cy.get("table tr").contains("No Results");
-    cy.get("button")
-      .contains("Close")
-      .click();
+    cy.get(".cancel").click();
   });
 });

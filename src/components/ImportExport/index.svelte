@@ -1,12 +1,12 @@
 <div class="export-import">
-  <div class="export" on:click="exportData()">
-    <Icon name="upload" />
-  </div>
   <div class="import">
     <label>
       <Icon name="download" />
       <input type="file" on:change="importData(event)" accept=".json" />
     </label>
+  </div>
+  <div class="export" on:click="exportData()">
+    <Icon name="upload" />
   </div>
 </div>
 

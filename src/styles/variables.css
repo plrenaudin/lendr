@@ -1,14 +1,13 @@
 :root {
-  --bgColor: #f8f8f8;
-  --buttonColor: #ffe082;
-  --greenColor: #a5d6a7;
+  --bgColor: #eee;
+  --fgColor: #fff;
+  --buttonColor: #87bc64;
+  --lightgrey: #ccc;
   --shadowColor: #888;
-  --descriptionColor: #ccc;
-  --linkColor: #2196f3;
-  --blueColor: #81d4fa;
-  --purpleColor: #ce93d8;
-  --redColor: #ef5350;
-  --linkHoverColor: #42a5f5;
-  --fontColor: #111111;
+  --descriptionColor: #56b0d4;
+  --redColor: #fb6866;
+  --linkColor: #47adff;
+  --linkHoverColor: #63baff;
+  --fontColor: #000;
   --maxWidth: 800px;
 }

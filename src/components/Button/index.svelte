@@ -48,17 +48,11 @@
     font-size: 2rem;
     flex-direction: column;
   }
-  button.plus {
-    background-color: var(--greenColor);
-  }
-  button.upload {
-    background-color: var(--blueColor);
-  }
-  button.download {
-    background-color: var(--purpleColor);
-  }
-  button.cancel,
   button.bin {
+    background: none;
+    box-shadow: none;
+  }
+  button.cancel {
     background-color: var(--redColor);
   }
 </style>

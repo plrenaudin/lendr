@@ -1,6 +1,7 @@
 <main>
   <div class="header">
-    <input class="search" type="search" placeholder={t("inventory.find")} bind:value=search /><Button on:click="fire('close')" icon="cancel">{t('inventory.close')}</Button>
+    <input class="search" type="search" placeholder={t("inventory.find")} bind:value=search />
+    <div class="close-button"><Button on:click="fire('close')" icon="cancel"></Button></div>
   </div>
   <nav>
     <ul>
@@ -39,7 +40,7 @@
     </tbody>
   </table>
   <div class="import-export">
-    {t("importExport")}<ImportExport />
+    <span>{t("importExport")}</span><ImportExport />
   </div>
   {:else}
   <label class="active-filter">
@@ -142,11 +143,15 @@
   }
   .header {
     display: flex;
-    align-items: center;
   }
   .search {
-    flex: 1 0 auto;
-    margin: 0.3rem;
+    flex: 0 0 60%;
+    margin: 0.3rem auto;
+  }
+  .close-button {
+    position: absolute;
+    top: 0.3rem;
+    right: 0.3rem;
   }
   table {
     table-layout: fixed;
@@ -174,14 +179,17 @@
   }
   .import-export {
     display: flex;
-    border-top: 1px solid var(--fontColor);
+    border-top: 1px solid var(--lightgrey);
     padding-top: 0.3rem;
-    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
     position: fixed;
     bottom: 0;
     width: 100%;
     background-color: var(--bgColor);
+  }
+  .import-export span {
+    font-size: 0.9rem;
   }
   .id {
     width: 20%;
@@ -210,21 +218,33 @@
     padding-right: 0.3rem;
   }
   thead tr th {
-    border-bottom: 1px solid var(--fontColor);
+    border-bottom: 1px solid var(--lightgrey);
   }
   nav ul {
     display: flex;
     list-style-type: none;
     justify-content: space-around;
-    margin-bottom: 1rem;
+    margin: 0.5rem 0 0;
   }
   nav ul li {
     width: 100%;
     color: var(--linkColor);
     text-align: center;
     padding: 0.5rem;
+    border-bottom: 1px solid var(--linkColor);
+    border-radius: 0.5rem 0.5rem 0 0;
   }
   nav ul li.selected {
-    border-bottom: 1px solid var(--linkColor);
+    border: 1px solid var(--linkColor);
+    border-bottom: none;
+  }
+  nav ul li:first-child {
+    border-left: none;
+  }
+  nav ul li:last-child {
+    border-right: none;
+  }
+  input[type="checkbox"] {
+    margin-right: 0.3rem;
   }
 </style>

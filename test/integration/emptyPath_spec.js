@@ -15,9 +15,7 @@ describe("Lendr without data works", () => {
       .contains("Loans")
       .click();
     cy.get("table tbody tr td").contains("No Results");
-    cy.get("button")
-      .contains("Close")
-      .click();
+    cy.get(".cancel").click();
     cy.get(".inventory-container").should("not.be.visible");
   });
 
