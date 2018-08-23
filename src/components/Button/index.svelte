@@ -48,10 +48,6 @@
     font-size: 2rem;
     flex-direction: column;
   }
-  button.bin {
-    background: none;
-    box-shadow: none;
-  }
   button.cancel {
     background-color: var(--redColor);
   }

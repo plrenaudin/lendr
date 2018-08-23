@@ -43,7 +43,7 @@
 				<td>{item.quantity}</td>
 				<td>
 					{#if isDeletable($items,$loans,item.id)}
-					<Button on:click="removeItem(item)" icon="bin" /> {/if}
+					<Button on:click="removeItem(item)" icon="bin" lite /> {/if}
 				</td>
 			</tr>
 			{#if index===limit}
