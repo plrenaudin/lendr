@@ -1,8 +1,7 @@
 <button on:click="fire('click')" disabled={disabled} class={className}>
-  {#if icon}
-    <Icon name={icon} />
-  {/if}
-  <slot></slot>
+	{#if icon}
+	<Icon name={icon} /> {/if}
+	<slot></slot>
 </button>
 
 <script>
@@ -11,9 +10,10 @@
       Icon: "../Icon"
     },
     computed: {
-      className: ({ big, icon }) => {
+      className: ({ lite, big, icon }) => {
         const classNames = [];
         big && classNames.push("big");
+        lite && classNames.push("lite");
         icon && classNames.push(icon);
         return classNames.join(" ");
       }
@@ -54,5 +54,9 @@
   }
   button.cancel {
     background-color: var(--redColor);
+  }
+  button.lite {
+    background-color: transparent;
+    box-shadow: none;
   }
 </style>

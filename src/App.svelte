@@ -1,64 +1,62 @@
 <div class="content">
-  <div class="scanning-actions">
-    {#if action === ''}
-    <div class="scanning" transition:fly="{y:-200, duration:500}">
-      <div class="scan-button-container">
-        <ScanButton on:scanResult="$set({currentId: event.data})" />
-      </div>
-      <input bind:value="$currentId" type="text" disabled={action !== ''} class="main-input" placeholder={t("idInputPlaceholder")} />
-    </div>
-    {/if}
-    {#if $currentId}
+	<div class="scanning-actions">
+		{#if action === ''}
+		<div class="scanning" transition:fly="{y:-200, duration:500}">
+			<div class="scan-button-container">
+				<ScanButton on:scanResult="$set({currentId: event.data})" />
+			</div>
+			<input bind:value="$currentId" type="text" disabled={action !== '' } class="main-input" placeholder={t("idInputPlaceholder")} />
+		</div>
+		{/if} 
+    {#if $currentItem || $isbnResult}
       <Card className="description">
-      {#if $currentItem}
-        {$currentItem.description}
-        <span class="available">({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</span>
-      {:elseif $isbnResult}
-        {$isbnResult}
-      {:else}
-        {t("notFound")}
-      {/if}
+        {#if $currentItem} 
+          {$currentItem.description}
+          <span class="available">({$currentItem.quantity - $activeLoans.filter(i=>i.id===$currentItem.id).length}/{$currentItem.quantity})</span>
+        {:elseif $isbnResult} 
+          {$isbnResult} 
+        {/if}
       </Card>
-    {/if}
+		{/if} 
     {#if $currentId}
       <Card className="button-group">
         <Button on:click="set({action:'add'})" icon="plus">
           {t("action.add")}
         </Button>
         {#if $isLendable}
-          <Button on:click="set({action:'lend'})" icon="upload">
-            {t("action.lend")} 
-          </Button>
-        {/if}
+        <Button on:click="set({action:'lend'})" icon="upload">
+          {t("action.lend")}
+        </Button>
+        {/if} 
         {#if $isReturnable}
-          <Button on:click="set({action:'return'})" icon="download">
-            {t("action.return")} 
-          </Button>
-        {/if}
+        <Button on:click="set({action:'return'})" icon="download">
+          {t("action.return")}
+        </Button>
+        {/if} 
         {#if action}
-          <Button on:click="reset()" icon="cancel">
-            {t("action.cancel")} 
-          </Button>
+        <Button on:click="reset()" icon="cancel">
+          {t("action.cancel")}
+        </Button>
         {/if}
       </Card>
       {#if action === "add"}
-        <AddItemForm bind:id="$currentId" on:added="reset()"/>
+        <AddItemForm bind:id="$currentId" on:added="reset()" /> 
       {:elseif action ==="lend"}
-        <LendForm bind:id="$currentId" on:lent="reset()"/>
+        <LendForm bind:id="$currentId" on:lent="reset()" /> 
       {:elseif action ==="return"}
-        <ReturnForm bind:id="$currentId" on:returned="reset()"/>
-      {/if}
+        <ReturnForm bind:id="$currentId" on:returned="reset()" /> 
+      {/if} 
     {/if}
-  </div>
+	</div>
 
-  <Button on:click="set({displayInventory: !displayInventory})" icon="drawer">
-    {t("inventory.button")}
-  </Button>
-  {#if displayInventory}
-    <div class="inventory-container" transition:fly="{y:200, duration:500}">
-      <Inventory on:close="set({displayInventory: false})" />
-    </div>
-  {/if}
+	<Button on:click="set({displayInventory: !displayInventory})" icon="drawer">
+		{t("inventory.button")}
+	</Button>
+	{#if displayInventory}
+	<div class="inventory-container" transition:fly="{y:200, duration:500}">
+		<Inventory on:close="set({displayInventory: false})" />
+	</div>
+	{/if}
 </div>
 
 <script>
