@@ -1,19 +1,21 @@
+import t from "../../src/utils/wording";
+
 describe("Adds a new entry and lends it", () => {
   it("Adds the entry", () => {
     cy.get(".main-input").type("9782215087229");
     cy.get(".card.description").contains("La forêt - Emilie Beaumont, Nathalie Bélineau");
     cy.get("button")
-      .contains("Add")
+      .contains(t("action.add"))
       .click();
     cy.get("button")
-      .contains("Add new")
+      .contains(t("action.addAction"))
       .click();
   });
 
   it("Lends it", () => {
     cy.get(".main-input").type("9782215087229");
     cy.get("button")
-      .contains("Lend")
+      .contains(t("action.lendAction"))
       .click();
     cy.get(".lendForm button").should("be.disabled");
     cy.get(".lendForm input").type("Martine");
@@ -21,7 +23,7 @@ describe("Adds a new entry and lends it", () => {
       .should("not.be.disabled")
       .click();
     cy.get(".toastify")
-      .contains("Item lent")
+      .contains(t("notification.lent"))
       .should("be.visible");
   });
 
@@ -38,10 +40,10 @@ describe("Adds a new entry and lends it", () => {
 
   it("Should show the loan in the loan tab", () => {
     cy.get("button")
-      .contains("Show Inventory")
+      .contains(t("inventory.button"))
       .click();
     cy.get("nav li")
-      .contains("Loans")
+      .contains(t("inventory.tab.loans"))
       .click();
     cy.get("table tr td:nth-of-type(2)").contains("Martine");
     cy.get(".cancel").click();
@@ -52,7 +54,7 @@ describe("Returns the item", () => {
   it("returns the item", () => {
     cy.get(".main-input").type("9782215087229");
     cy.get("button")
-      .contains("Return")
+      .contains(t("action.returnAction"))
       .click();
     cy.get(".returnForm button").should("be.disabled");
     cy.get(".returnForm ul li")
@@ -62,7 +64,7 @@ describe("Returns the item", () => {
       .should("not.be.disabled")
       .click();
     cy.get(".toastify")
-      .contains("Item returned")
+      .contains(t("notification.returned"))
       .should("be.visible");
   });
 
@@ -74,17 +76,17 @@ describe("Returns the item", () => {
 
   it("should not appear in the loan section", () => {
     cy.get("button")
-      .contains("Show Inventory")
+      .contains(t("inventory.button"))
       .click();
     cy.get("nav li")
-      .contains("Loans")
+      .contains(t("inventory.tab.loans"))
       .click();
-    cy.get("table tr").contains("No Results");
+    cy.get("table tr").contains(t("inventory.noResults"));
   });
 
   it("should appear in the not active loan section", () => {
     cy.get("label")
-      .contains("Active only")
+      .contains(t("inventory.activeOnly"))
       .click();
     cy.get("table tr td:nth-of-type(2)").contains("Martine");
     cy.get(".cancel").click();
