@@ -1,83 +1,101 @@
 <main>
-  <div class="header">
-    <input class="search" type="search" placeholder={t("inventory.find")} bind:value=search />
-    <div class="close-button"><Button on:click="fire('close')" icon="cancel"></Button></div>
-  </div>
-  <nav>
-    <ul>
-      <li on:click="set({tab: 'inventory'})" class={tab === 'inventory' ? 'selected':''}><Icon name="drawer" />{t("inventory.tab.inventory")}</li>
-      <li on:click="set({tab: 'loans'})" class={tab === 'loans' ? 'selected':''}><Icon name="upload" />{t("inventory.tab.loans")}</li>
-    </ul>
-  </nav>
-  {#if tab ==="inventory"}
-  <table>
-    <thead>
-      <tr>
-        <th class="id">{t("inventory.id")}</th>
-        <th class="description">{t("inventory.description")}</th>
-        <th class="qty">{t("inventory.quantity")}</th>
-        <th class="action">&nbsp;</th>
-      </tr>
-    </thead>
-    <tbody>
-    {#each $sortedItems.filter(itemPredicate).slice(0,limit+1) as item, index}
-      <tr on:click="select(item.id)">
-        <td class="id">{item.id}</td>
-        <td>{item.description}</td>
-        <td>{item.quantity}</td>
-        <td>
-          {#if isDeletable($items,$loans,item.id)}
-            <Button on:click="removeItem(item)" icon="bin" />
-          {/if}
-        </td>
-      </tr>
-      {#if index===limit}
-        <tr class="centered"><td colspan="4">{t("inventory.limit")}</td></tr>
-      {/if}
-    {:else}
-      <tr class="centered"><td colspan="4">{t("inventory.noResults")}</td></tr>
-    {/each}
-    </tbody>
-  </table>
-  <div class="import-export">
-    <span>{t("importExport")}</span><ImportExport />
-  </div>
-  {:else}
-  <label class="active-filter">
-    <input type="checkbox" bind:checked="onlyActiveLoans" />{t("inventory.activeOnly")}
-  </label>
-  <table>
-    <thead>
-      <tr class={onlyActiveLoans ? "wide":""}>
-        <th class="item">{t("inventory.item")}</th>
-        <th class="name">{t("inventory.name")}</th>
-        <th class="date">{t("inventory.lent")}</th>
-        {#if !onlyActiveLoans}
-        <th class="date">{t("inventory.returned")}</th>
-        {/if}
-      </tr>
-    </thead>
-    <tbody>
-    {#each loans.filter(loanPredicate).slice(0,limit+1) as loan,index}
-      <tr>
-        <td>{loan.description || ''}</td>
-        <td>{loan.name}</td>
-        <td>{textFormatDate(loan.lent)}</td>
-        {#if !onlyActiveLoans}
-          <td>
-            {loan.returned ? textFormatDate(loan.returned) : ''}
-          </td>
-        {/if}
-      </tr>
-      {#if index === limit}
-        <tr class="centered"><td colspan="4">{t("inventory.limit")}</td></tr>
-      {/if}
-    {:else}
-      <tr class="centered"><td colspan="4">{t("inventory.noResults")}</td></tr>
-    {/each}
-    </tbody>
-  </table>
-  {/if}
+	<div class="header">
+		<div class="menu-container">
+			<Button on:click="set({showMenu: !showMenu})" icon="dots" /> 
+      {#if showMenu}
+      <div class="overlay" on:click="set({showMenu: false})" />
+			<ul class="menu">
+				<li class="import-export">
+					<span>{t("importExport")}</span>
+					<ImportExport />
+				</li>
+			</ul>
+			{/if}
+		</div>
+		<input class="search" ref:searchInput type="search" placeholder={t( "inventory.find")} bind:value=search />
+		<div class="close-button"><Button on:click="fire('close')" icon="cancel" lite></Button></div>
+	</div>
+	<nav>
+		<ul>
+			<li on:click="set({tab: 'inventory'})" class={tab==='inventory' ? 'selected': ''}>
+				<Icon name="drawer" />{t("inventory.tab.inventory")}
+      </li>
+			<li on:click="set({tab: 'loans'})" class={tab==='loans' ? 'selected': ''}>
+				<Icon name="upload" />{t("inventory.tab.loans")}
+      </li>
+		</ul>
+	</nav>
+	{#if tab ==="inventory"}
+	<table>
+		<thead>
+			<tr>
+				<th class="id">{t("inventory.id")}</th>
+				<th class="description">{t("inventory.description")}</th>
+				<th class="qty">{t("inventory.quantity")}</th>
+				<th class="action">&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each $sortedItems.filter(itemPredicate).slice(0,limit+1) as item, index}
+			<tr on:click="select(item.id)">
+				<td class="id">{item.id}</td>
+				<td>{item.description}</td>
+				<td>{item.quantity}</td>
+				<td>
+					{#if isDeletable($items,$loans,item.id)}
+					<Button on:click="removeItem(item)" icon="bin" lite /> {/if}
+				</td>
+			</tr>
+			{#if index===limit}
+			<tr class="centered">
+				<td colspan="4">{t("inventory.limit")}</td>
+			</tr>
+			{/if} {:else}
+			<tr class="centered">
+				<td colspan="4">{t("inventory.noResults")}</td>
+			</tr>
+			{/each}
+		</tbody>
+	</table>
+	{:else}
+	<label class="active-filter">
+		<input type="checkbox" bind:checked="onlyActiveLoans" />{t("inventory.activeOnly")}
+	</label>
+	<table>
+		<thead>
+			<tr class={onlyActiveLoans ? "wide": ""}>
+				<th class="item">{t("inventory.item")}</th>
+				<th class="name">{t("inventory.name")}</th>
+				<th class="date">{t("inventory.lent")}</th>
+				{#if !onlyActiveLoans}
+				<th class="date">{t("inventory.returned")}</th>
+				{/if}
+			</tr>
+		</thead>
+		<tbody>
+			{#each loans.filter(loanPredicate).slice(0,limit+1) as loan,index}
+			<tr>
+				<td>{loan.description || ''}</td>
+				<td>{loan.name}</td>
+				<td>{textFormatDate(loan.lent)}</td>
+				{#if !onlyActiveLoans}
+				<td>
+					{loan.returned ? textFormatDate(loan.returned) : ''}
+				</td>
+				{/if}
+			</tr>
+			{#if index === limit}
+			<tr class="centered">
+				<td colspan="4">{t("inventory.limit")}</td>
+			</tr>
+			{/if} {:else}
+			<tr class="centered">
+				<td colspan="4">{t("inventory.noResults")}</td>
+			</tr>
+			{/each}
+		</tbody>
+	</table>
+	{/if}
 
 </main>
 
@@ -97,7 +115,8 @@
       return {
         search: "",
         onlyActiveLoans: true,
-        tab: "inventory"
+        tab: "inventory",
+        showMenu: false
       };
     },
     helpers: {
@@ -132,6 +151,9 @@
         event.stopPropagation();
         this.store.removeItem(item);
       }
+    },
+    oncreate() {
+      this.refs.searchInput.focus();
     }
   };
 </script>
@@ -150,9 +172,10 @@
   }
   .close-button {
     position: absolute;
-    top: 0.3rem;
-    right: 0.3rem;
+    top: 0.5rem;
+    right: 0.5rem;
   }
+
   table {
     table-layout: fixed;
     font-size: 1rem;
@@ -177,19 +200,21 @@
   tr.centered td {
     text-align: center;
   }
-  .import-export {
-    display: flex;
-    border-top: 1px solid var(--lightgrey);
-    padding-top: 0.3rem;
-    justify-content: space-around;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: var(--bgColor);
+  .menu-container {
+    top: 0.3rem;
+    left: 0.3rem;
+    position: absolute;
   }
-  .import-export span {
-    font-size: 0.9rem;
+  .menu {
+    position: fixed;
+    top: 2rem;
+    left: 0.3rem;
+    box-shadow: 0 1px 3px var(--shadowColor);
+    background-color: var(--fgColor);
+  }
+  .menu li {
+    border-top: 1px solid var(--lightgrey);
+    padding: 0.5rem;
   }
   .id {
     width: 20%;
@@ -246,5 +271,14 @@
   }
   input[type="checkbox"] {
     margin-right: 0.3rem;
+  }
+  .overlay {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+  }
+  .import-export span {
+    font-size: 0.9rem;
   }
 </style>

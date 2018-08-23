@@ -1,3 +1,5 @@
+import t from "../../src/utils/wording";
+
 describe("Adds a new entry", () => {
   it("Fetch result from ISBN", () => {
     cy.get(".main-input").type("9782215087229");
@@ -6,19 +8,19 @@ describe("Adds a new entry", () => {
 
   it("Clicks on add and toast is displayed", () => {
     cy.get("button")
-      .contains("Add")
+      .contains(t("action.add"))
       .click();
     cy.get("button")
-      .contains("Add new")
+      .contains(t("action.addAction"))
       .click();
     cy.get(".toastify")
-      .contains("Item added")
+      .contains(t("notification.added"))
       .should("be.visible");
   });
 
   it("should appear in the inventory", () => {
     cy.get("button")
-      .contains("Show Inventory")
+      .contains(t("inventory.button"))
       .click();
     cy.get(".inventory-container table tbody td").contains("9782215087229");
     cy.get(".cancel").click();
@@ -34,10 +36,10 @@ describe("Adds an existing entry", () => {
 
   it("Adds it and check the inventory", () => {
     cy.get("button")
-      .contains("Add")
+      .contains(t("action.add"))
       .click();
     cy.get("button")
-      .contains("Add one")
+      .contains(t("action.addOne"))
       .click();
     cy.get(".main-input").type("9782215087229");
     cy.get(".available").contains("(2/2)");
@@ -48,7 +50,7 @@ describe("Adds an existing entry", () => {
 describe("Removes an entry", () => {
   it("Removes an item", () => {
     cy.get("button")
-      .contains("Show Inventory")
+      .contains(t("inventory.button"))
       .click();
     const tableRow = cy.get("table tr");
     tableRow.contains("9782215087229");
@@ -56,10 +58,10 @@ describe("Removes an entry", () => {
     tableRow.get(".bin").click();
     tableRow.get("td:nth-of-type(3)").should("contain", "1");
     cy.get(".toastify")
-      .contains("Item removed")
+      .contains(t("notification.removed"))
       .should("be.visible", "Should show the toast on item removed");
     tableRow.get(".bin").click();
-    cy.get("table tr").contains("No Results");
+    cy.get("table tr").contains(t("inventory.noResults"));
     cy.get(".cancel").click();
   });
 });
