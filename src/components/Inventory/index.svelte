@@ -1,7 +1,7 @@
 <main>
 	<div class="header">
 		<div class="menu-container">
-			<Button on:click="set({showMenu: !showMenu})" icon="dots" /> 
+			<Button on:click="set({showMenu: !showMenu})" icon="dots" lite /> 
       {#if showMenu}
       <div class="overlay" on:click="set({showMenu: false})" />
 			<ul class="menu">
