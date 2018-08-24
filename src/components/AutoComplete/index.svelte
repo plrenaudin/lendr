@@ -50,7 +50,7 @@
       }
     },
     computed: {
-      resultPredicate: ({ value }) => item => value && value.length > 2 && includes(value, item.id, item.description),
+      resultPredicate: ({ value }) => item => value && includes(value, item.id, item.description),
       results: ({ $items, resultPredicate }) => $items.filter(resultPredicate).slice(0, limit)
     }
   };
@@ -76,6 +76,7 @@
   }
   .suggestions {
     position: absolute;
+    z-index: 10;
     width: 100%;
     background-color: var(--fgColor);
     box-shadow: 0 1px 3px var(--shadowColor);
