@@ -102,8 +102,7 @@
 <script>
   import { textFormatDate } from "../../utils/formatter";
   import t from "../../utils/wording.js";
-  const includes = (expression, ...strings) =>
-    strings.some(i => i && i.toLowerCase && i.toLowerCase().includes(expression.toLowerCase()));
+  import { includes } from "../../utils/search";
 
   export default {
     components: {
@@ -276,6 +275,7 @@
     position: fixed;
     width: 100%;
     top: 0;
+    left: 0;
     bottom: 0;
   }
   .import-export span {

@@ -1,5 +1,5 @@
 {
-  "idInputPlaceholder": "Barcode number",
+  "idInputPlaceholder": "Barcode / Title",
   "scanButton": "Scan",
   "action": {
     "add": "Add",

@@ -2,7 +2,8 @@ import t from "../../src/utils/wording";
 
 describe("Adds a new entry", () => {
   it("Fetch result from ISBN", () => {
-    cy.get(".main-input").type("9782215087229");
+    cy.get(".main-input input").type("9782215087229");
+    cy.get("li.add").click();
     cy.get(".card.description").contains("La forêt - Emilie Beaumont, Nathalie Bélineau");
   });
 
@@ -29,7 +30,8 @@ describe("Adds a new entry", () => {
 
 describe("Adds an existing entry", () => {
   it("Displays the fact that an entry already exists", () => {
-    cy.get(".main-input").type("9782215087229");
+    cy.get(".main-input input").type("9782215087229");
+    cy.get("ul.suggestions li:first").click();
     cy.get(".card.description").contains("La forêt - Emilie Beaumont, Nathalie Bélineau");
     cy.get(".available").contains("(1/1)");
   });
@@ -41,9 +43,10 @@ describe("Adds an existing entry", () => {
     cy.get("button")
       .contains(t("action.addOne"))
       .click();
-    cy.get(".main-input").type("9782215087229");
+    cy.get(".main-input input").type("9782215087229");
+    cy.get("ul.suggestions li:first").click();
     cy.get(".available").contains("(2/2)");
-    cy.get(".main-input").clear();
+    cy.get(".cancel").click();
   });
 });
 
