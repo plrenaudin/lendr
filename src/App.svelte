@@ -1,13 +1,13 @@
 <div class="content">
 	<div class="scanning-actions">
-		{#if action === ''}
 		<div class="scanning" transition:fly="{y:-200, duration:500}">
 			<div class="scan-button-container">
-				<ScanButton on:scanResult="$set({currentId: event.data})" />
+				<ScanButton on:scanResult="onScanResult(event.data)" />
 			</div>
-			<input bind:value="$currentId" type="text" disabled={action !== '' } class="main-input" placeholder={t("idInputPlaceholder")} />
+			<div class="main-input">
+        <AutoComplete on:change="$set({currentId: event})" placeholder={t("idInputPlaceholder")} bind:value="inputValue" />
+      </div>
 		</div>
-		{/if} 
     {#if $currentItem || $isbnResult}
       <Card className="description">
         {#if $currentItem} 
@@ -33,11 +33,9 @@
           {t("action.return")}
         </Button>
         {/if} 
-        {#if action}
         <Button on:click="reset()" icon="cancel">
           {t("action.cancel")}
         </Button>
-        {/if}
       </Card>
       {#if action === "add"}
         <AddItemForm bind:id="$currentId" on:added="reset()" /> 
@@ -72,17 +70,24 @@
       AddItemForm: "./components/AddItemForm",
       LendForm: "./components/LendForm",
       ReturnForm: "./components/ReturnForm",
-      Inventory: "./components/Inventory"
+      Inventory: "./components/Inventory",
+      AutoComplete: "./components/AutoComplete"
     },
     data() {
       return {
         action: "",
+        inputValue: "",
         displayInventory: false
       };
     },
     methods: {
       reset() {
-        this.set({ action: "" });
+        this.store.set({ currentId: "" });
+        this.set({ action: "", inputValue: "" });
+      },
+      onScanResult(id) {
+        this.store.set({ currentId: id });
+        this.set({ inputValue: id });
       }
     },
     helpers: {
@@ -104,8 +109,6 @@
   .main-input {
     width: 90%;
     margin: 0.3rem auto;
-    text-align: center;
-    font-size: 1.4rem;
   }
   .inventory-container {
     position: fixed;

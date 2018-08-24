@@ -2,7 +2,8 @@ import t from "../../src/utils/wording";
 
 describe("Adds a new entry and lends it", () => {
   it("Adds the entry", () => {
-    cy.get(".main-input").type("9782215087229");
+    cy.get(".main-input input").type("9782215087229");
+    cy.get("li.add").click();
     cy.get(".card.description").contains("La forêt - Emilie Beaumont, Nathalie Bélineau");
     cy.get("button")
       .contains(t("action.add"))
@@ -13,7 +14,8 @@ describe("Adds a new entry and lends it", () => {
   });
 
   it("Lends it", () => {
-    cy.get(".main-input").type("9782215087229");
+    cy.get(".main-input input").type("9782215087229");
+    cy.get("ul.suggestions li:first").click();
     cy.get("button")
       .contains(t("action.lendAction"))
       .click();
@@ -28,14 +30,15 @@ describe("Adds a new entry and lends it", () => {
   });
 
   it("Availability should be 0", () => {
-    cy.get(".main-input").type("9782215087229");
+    cy.get(".main-input input").type("9782215087229");
+    cy.get("ul.suggestions li:first").click();
     cy.get(".available").contains("(0/1)");
   });
 
   it("Should not be possible to lend it", () => {
     cy.get(".button-group .button.upload").should("not.exist");
     cy.get(".button-group .button.download").should("not.exist");
-    cy.get(".main-input").clear();
+    cy.get(".cancel").click();
   });
 
   it("Should show the loan in the loan tab", () => {
@@ -52,7 +55,8 @@ describe("Adds a new entry and lends it", () => {
 
 describe("Returns the item", () => {
   it("returns the item", () => {
-    cy.get(".main-input").type("9782215087229");
+    cy.get(".main-input input").type("9782215087229");
+    cy.get("ul.suggestions li:first").click();
     cy.get("button")
       .contains(t("action.returnAction"))
       .click();
@@ -69,9 +73,10 @@ describe("Returns the item", () => {
   });
 
   it("Availability should be 1", () => {
-    cy.get(".main-input").type("9782215087229");
+    cy.get(".main-input input").type("9782215087229");
+    cy.get("ul.suggestions li:first").click();
     cy.get(".available").contains("(1/1)");
-    cy.get(".main-input").clear();
+    cy.get(".cancel").click();
   });
 
   it("should not appear in the loan section", () => {
