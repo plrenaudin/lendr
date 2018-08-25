@@ -1,7 +1,8 @@
+<svelte:window on:click="set({display:false})" />
+
 <div class="autocomplete">
   <input type="search" on:input="set({display:true})" bind:value {placeholder} {disabled} />
   {#if display}
-  <div class="overlay" on:click="set({display:false})"></div>
   <ul class="suggestions">
     {#each results as result}
       <li on:click="select(result.id)">
@@ -62,13 +63,7 @@
 
   .autocomplete {
     position: relative;
-  }
-  .overlay {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    bottom: 0;
+    z-index: 9;
   }
   input {
     width: 100%;
@@ -77,7 +72,7 @@
   }
   .suggestions {
     position: absolute;
-    z-index: 10;
+    z-index: 9;
     width: 100%;
     background-color: var(--fgColor);
     box-shadow: 0 1px 3px var(--shadowColor);
