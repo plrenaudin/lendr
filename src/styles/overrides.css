@@ -1,0 +1,11 @@
+/*
+override css variables example: 
+:root {
+  --buttonColor: red;
+} 
+
+override component css example:
+nav ul li {
+  color: red !important;
+}
+*/

@@ -1,4 +1,4 @@
-<div class="export-import">
+<div class="import-export">
   <div class="import">
     <label>
       <Icon name="download" />
@@ -44,7 +44,7 @@
   input[type="file"] {
     display: none;
   }
-  .export-import {
+  .import-export {
     display: flex;
     justify-content: center;
   }

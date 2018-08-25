@@ -1,4 +1,4 @@
-<section class="addForm">
+<section class="add-item-form">
   <label>
       {#if !$exists}
         <input type="text" bind:value=description placeholder={t("inventory.description")} ref:input />
