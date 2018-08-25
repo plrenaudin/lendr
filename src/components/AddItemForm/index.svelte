@@ -1,7 +1,7 @@
 <section class="addForm">
   <label>
       {#if !$exists}
-        <input type="text" bind:value=description placeholder="Description" ref:input />
+        <input type="text" bind:value=description placeholder={t("inventory.description")} ref:input />
       {/if}
       <Button on:click="addItem()" icon="plus" bind:disabled>{t($exists ? "action.addOne": "action.addAction")}</Button>
   </label>

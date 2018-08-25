@@ -1,5 +1,5 @@
 <div class="autocomplete">
-  <input type="search" bind:value {placeholder} on:input="set({display:true})" />
+  <input type="search" on:input="set({display:true})" bind:value {placeholder} {disabled} />
   {#if display}
   <div class="overlay" on:click="set({display:false})"></div>
   <ul class="suggestions">
@@ -84,6 +84,9 @@
   .result-id {
     font-size: 0.8rem;
     color: var(--shadowColor);
+  }
+  .add :global(.icon) {
+    font-size: 0.9rem;
   }
   ul {
     list-style-type: none;

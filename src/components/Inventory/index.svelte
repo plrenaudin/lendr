@@ -159,9 +159,7 @@
 
 <style>
   @import "../../styles/variables.css";
-  h3 {
-    margin: 1rem 0.3rem 0.3rem;
-  }
+
   .header {
     display: flex;
   }
@@ -200,13 +198,13 @@
     text-align: center;
   }
   .menu-container {
-    top: 0.3rem;
+    top: 0.6rem;
     left: 0.3rem;
     position: absolute;
   }
   .menu {
     position: fixed;
-    top: 2rem;
+    top: 2.5rem;
     left: 0.3rem;
     box-shadow: 0 1px 3px var(--shadowColor);
     background-color: var(--fgColor);
