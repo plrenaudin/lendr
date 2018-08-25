@@ -1,11 +1,13 @@
 <div class="content">
 	<div class="scanning-actions">
-		<div class="scanning" transition:fly="{y:-200, duration:500}">
-			<div class="scan-button-container">
+		<div class="scanning">
+      {#if action===''}
+			<div class="scan-button-container" transition:fly="{y:-200, duration:500}">
 				<ScanButton on:scanResult="onScanResult(event.data)" />
 			</div>
+      {/if}
 			<div class="main-input">
-        <AutoComplete on:change="$set({currentId: event})" placeholder={t("idInputPlaceholder")} bind:value="inputValue" />
+        <AutoComplete on:change="$set({currentId: event})" placeholder={t("idInputPlaceholder")} bind:value="inputValue" disabled={action !== ''} />
       </div>
 		</div>
     {#if $currentItem || $isbnResult}
@@ -111,6 +113,7 @@
     margin: 0.3rem auto;
   }
   .inventory-container {
+    max-width: var(--maxWidth);
     position: fixed;
     z-index: 10;
     background: var(--bgColor);
@@ -135,7 +138,6 @@
     margin: 1rem auto;
     z-index: 2;
   }
-
   .available {
     display: block;
     margin-top: 1rem;
@@ -148,7 +150,40 @@
     width: 100%;
   }
 
-  h2 {
+  .content :global(.card.description) {
+    width: 90%;
     text-align: center;
+    background-color: var(--descriptionColor);
+    padding: 1rem;
+    margin-top: 0;
+  }
+  .content :global(.card.button-group) {
+    padding: 1rem;
+    background-color: var(--fgColor);
+    margin: 0 0 0.3rem 0;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    position: relative;
+  }
+  .content :global(.card.button-group button) {
+    margin: 0.5rem;
+    flex: 0 0 40%;
+  }
+  .content :global(.card.button-group:after) {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    width: 0;
+    height: 0;
+    top: 1px;
+    left: 50%;
+    margin-left: 1rem;
+    border: 0.5rem solid black;
+    border-color: transparent transparent var(--fgColor) var(--fgColor);
+    transform-origin: 0 0;
+    transform: rotate(135deg);
+    box-shadow: -2px 2px 1px 0 rgb(210, 210, 210);
   }
 </style>

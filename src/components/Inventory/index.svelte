@@ -159,9 +159,7 @@
 
 <style>
   @import "../../styles/variables.css";
-  h3 {
-    margin: 1rem 0.3rem 0.3rem;
-  }
+
   .header {
     display: flex;
   }
@@ -200,13 +198,13 @@
     text-align: center;
   }
   .menu-container {
-    top: 0.3rem;
+    top: 0.6rem;
     left: 0.3rem;
     position: absolute;
   }
   .menu {
     position: fixed;
-    top: 2rem;
+    top: 2.5rem;
     left: 0.3rem;
     box-shadow: 0 1px 3px var(--shadowColor);
     background-color: var(--fgColor);
@@ -248,18 +246,19 @@
     display: flex;
     list-style-type: none;
     justify-content: space-around;
-    margin: 0.5rem 0 0;
+    margin: 1.5rem 0 0;
   }
   nav ul li {
     width: 100%;
     color: var(--linkColor);
     text-align: center;
+    font-weight: 600;
     padding: 0.5rem;
-    border-bottom: 1px solid var(--linkColor);
+    border-bottom: 2px solid var(--linkColor);
     border-radius: 0.5rem 0.5rem 0 0;
   }
   nav ul li.selected {
-    border: 1px solid var(--linkColor);
+    border: 2px solid var(--linkColor);
     border-bottom: none;
   }
   nav ul li:first-child {

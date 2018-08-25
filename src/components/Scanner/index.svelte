@@ -6,8 +6,6 @@
 </div>
 
 <script>
-  import { BrowserBarcodeReader } from "@zxing/library";
-
   export default {
     data() {
       return {
@@ -15,14 +13,20 @@
       };
     },
     oncreate() {
-      this.codeReader = new BrowserBarcodeReader();
-      this.codeReader
-        .decodeFromInputVideoDevice(undefined, "video")
-        .then(result => {
-          this.fire("scanned", { data: result.getText() });
+      import("@zxing/library")
+        .then(({ BrowserBarcodeReader }) => {
+          this.codeReader = new BrowserBarcodeReader();
+          this.codeReader
+            .decodeFromInputVideoDevice(undefined, "video")
+            .then(result => {
+              this.fire("scanned", { data: result.getText() });
+            })
+            .catch(() => {
+              //do nothing for the moment
+            });
         })
-        .catch(() => {
-          //do nothing for the moment
+        .catch(e => {
+          console.error(`Couldn't load zxing library ${e}`);
         });
     },
     ondestroy() {
