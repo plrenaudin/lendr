@@ -16,11 +16,18 @@ This is a PWA built for mobile and works without internet connection (except for
 
 ### Lending an item
 
-![screenshot from 2018-08-19 11-34-01](https://user-images.githubusercontent.com/10697451/44310675-3c854400-a3a8-11e8-8e05-249b7c4b1f2f.png)
+<img src="https://user-images.githubusercontent.com/10697451/44620066-6af99800-a85c-11e8-977d-069e1c53bfe1.png" alt="Item description" width="300px" />
 
 ### Looking at the inventory
 
-![screenshot from 2018-08-19 11-36-00](https://user-images.githubusercontent.com/10697451/44310676-3c854400-a3a8-11e8-8945-396eab1aa7d8.png)
+<img src="https://user-images.githubusercontent.com/10697451/44620096-db081e00-a85c-11e8-880a-526d69ba939c.png" alt="Inventory" width="300px" />
+
+## Customizing
+
+If you want to use this project for yourself and add some customization, just fork it!
+
+- All the wordings are located at `src/locales/translations.json`.
+- The css can be overriden at `src/styles/overrides.css`.
 
 ## Technical details
 
@@ -32,4 +39,4 @@ This project uses:
 - [zxing](https://zxing-js.github.io/library/) for the barcode reader
 - [idb](https://github.com/jakearchibald/idb) as indexedDB wrapper
 
-...amongst many other great libraries!
+...amongst many other great packages!
