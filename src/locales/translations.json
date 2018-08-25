@@ -12,7 +12,7 @@
     "lendAction": "Lend"
   },
   "inventory": {
-    "button": "Search",
+    "button": "Inventory",
     "find": "Find Anywhere",
     "close": "Close",
     "tab": {

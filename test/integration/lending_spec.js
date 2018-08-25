@@ -19,9 +19,9 @@ describe("Adds a new entry and lends it", () => {
     cy.get("button")
       .contains(t("action.lendAction"))
       .click();
-    cy.get(".lendForm button").should("be.disabled");
-    cy.get(".lendForm input").type("Martine");
-    cy.get(".lendForm button")
+    cy.get(".lend-form button").should("be.disabled");
+    cy.get(".lend-form input").type("Martine");
+    cy.get(".lend-form button")
       .should("not.be.disabled")
       .click();
     cy.get(".toastify")
@@ -60,11 +60,11 @@ describe("Returns the item", () => {
     cy.get("button")
       .contains(t("action.returnAction"))
       .click();
-    cy.get(".returnForm button").should("be.disabled");
-    cy.get(".returnForm ul li")
+    cy.get(".return-form button").should("be.disabled");
+    cy.get(".return-form ul li")
       .contains("Martine")
       .click();
-    cy.get(".returnForm button")
+    cy.get(".return-form button")
       .should("not.be.disabled")
       .click();
     cy.get(".toastify")

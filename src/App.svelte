@@ -136,7 +136,7 @@
   }
   .scan-button-container {
     margin: 1rem auto;
-    z-index: 2;
+    z-index: 10;
   }
   .available {
     display: block;

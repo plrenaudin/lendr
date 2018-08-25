@@ -1,4 +1,4 @@
-<main>
+<main class="inventory">
 	<div class="header">
 		<div class="menu-container">
 			<Button on:click="set({showMenu: !showMenu})" icon="dots" lite /> 

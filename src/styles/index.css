@@ -42,3 +42,4 @@ a:hover {
 .toastify {
   z-index: 1000;
 }
+@import "./overrides.css";

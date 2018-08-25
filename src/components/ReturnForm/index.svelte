@@ -1,4 +1,4 @@
-<section class="returnForm">
+<section class="return-form">
   <ul>
     {#each loaners as loaner}
       <li class={name === loaner ? 'selected': ''}><a on:click="set({name:loaner})" role="button">{loaner}</a></li>
