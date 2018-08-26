@@ -60,7 +60,7 @@ describe("Returns the item", () => {
     cy.get("button")
       .contains(t("action.returnAction"))
       .click();
-    cy.get(".return-form ul li.selected").contains("Martine");
+    cy.get(".return-form ol li.selected").contains("Martine");
     cy.get(".return-form button")
       .should("not.be.disabled")
       .click();
