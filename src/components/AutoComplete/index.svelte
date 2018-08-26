@@ -53,7 +53,7 @@
     computed: {
       resultPredicate: ({ value }) => item => value && includes(value, item.id, item.description),
       results: ({ $items, resultPredicate }) => $items.filter(resultPredicate).slice(0, limit),
-      highlight: ({ value }) => string => string.replace(new RegExp(`(${value})`), "<b>$1</b>")
+      highlight: ({ value }) => string => string.replace(new RegExp(`(${value})`, "i"), "<b>$1</b>")
     }
   };
 </script>
