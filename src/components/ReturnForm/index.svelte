@@ -1,9 +1,12 @@
 <section class="return-form">
-  <ul>
-    {#each loaners as loaner}
-      <li class={name === loaner ? 'selected': ''}><a on:click="set({name:loaner})" role="button">{loaner}</a></li>
-    {/each}
-  </ul>
+  <div class="loaner-list">
+    <p>{t("loaners")} :</p>
+    <ol>
+      {#each loaners as loaner}
+        <li class="loaners {name === loaner ? 'selected': ''}"><a on:click="set({name:loaner})" role="button">{loaner}</a></li>
+      {/each}
+    </ol>
+  </div>
   <Button on:click="returnItem()" bind:disabled icon="download">{t("action.returnAction")}</Button>
 </section>
 
@@ -31,6 +34,11 @@
     },
     helpers: {
       t
+    },
+    oncreate() {
+      if (this.get().loaners.length === 1) {
+        this.set({ name: this.get().loaners[0] });
+      }
     }
   };
 </script>
@@ -41,13 +49,11 @@
     justify-content: space-around;
     width: 100%;
   }
-  ul {
-    list-style-type: none;
+  ol {
     margin-right: 1rem;
   }
   li {
     padding: 0.3rem 1rem;
-    text-align: center;
     text-decoration: underline;
   }
   li.selected {
