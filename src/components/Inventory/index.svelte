@@ -58,9 +58,33 @@
 		</tbody>
 	</table>
 	{:else}
-	<label class="active-filter">
-		<input type="checkbox" bind:checked="onlyActiveLoans" />{t("inventory.activeOnly")}
-	</label>
+  <div class="controls">
+    {#if $loaners}
+      <label class="loaner-filter">
+        <Icon name="user" />
+        <select bind:value="selectedLoaner">
+          <option value="">{t("inventory.loaner")}</option>
+          {#each $loaners as loaner}
+            <option value={loaner}>{loaner}</option>
+          {/each}
+        </select>
+      </label>
+    {/if}
+    <label class="date-filter">
+      <Icon name="calendar" />
+      <input type="date" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" max={shortFormatDate(new Date())} bind:value="selectedDate" />
+      <em class={selectedDate? 'set':''}>
+        {#if selectedDate}
+          {textFormatDate(selectedDate)}
+        {:else}
+          {t("inventory.noDate")}
+        {/if}
+      </em>
+    </label>
+    <label class="active-filter">
+      <input type="checkbox" bind:checked="onlyActiveLoans" />{t("inventory.activeOnly")}
+    </label>
+  </div>
 	<table>
 		<thead>
 			<tr class={onlyActiveLoans ? "wide": ""}>
@@ -100,7 +124,7 @@
 </main>
 
 <script>
-  import { textFormatDate } from "../../utils/formatter";
+  import { textFormatDate, shortFormatDate } from "../../utils/formatter";
   import t from "../../utils/wording.js";
   import { includes } from "../../utils/search";
 
@@ -115,6 +139,7 @@
         search: "",
         onlyActiveLoans: true,
         tab: "inventory",
+        selectedDate: "",
         showMenu: false
       };
     },
@@ -122,6 +147,7 @@
       isDeletable: (items, loans, id) =>
         items.find(i => id === i.id).quantity > (loans.filter(i => id === i.id && !i.returned) || []).length,
       textFormatDate,
+      shortFormatDate,
       t,
       limit: 100
     },
@@ -129,8 +155,8 @@
       loans: ({ $sortedLoans, $sortedActiveLoans, onlyActiveLoans }) =>
         onlyActiveLoans ? $sortedActiveLoans : $sortedLoans,
       itemPredicate: ({ search }) => item => (search ? includes(search, item.description, item.id) : true),
-      loanPredicate: ({ search }) => loan =>
-        search
+      loanPredicate: ({ search, selectedLoaner, selectedDate }) => loan => {
+        const searchPredicate = search
           ? includes(
               search,
               loan.name,
@@ -139,7 +165,11 @@
               textFormatDate(loan.lent),
               textFormatDate(loan.returned)
             )
-          : true
+          : true;
+        const loanerPredicate = selectedLoaner ? loan.name === selectedLoaner : true;
+        const datePredicate = selectedDate ? loan.lent <= shortFormatDate(selectedDate) : true;
+        return searchPredicate && loanerPredicate && datePredicate;
+      }
     },
     methods: {
       select(id) {
@@ -233,7 +263,26 @@
   .wide .date {
     width: 30%;
   }
-  .active-filter {
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .controls select {
+    width: 6rem;
+    background: none;
+    border: none;
+  }
+  .controls input[type="date"] {
+    visibility: hidden;
+    padding: 0;
+    width: 0;
+  }
+  .controls label {
+    display: flex;
+    align-items: center;
+  }
+  .controls .active-filter {
     text-align: right;
     font-size: 0.9rem;
     display: block;
@@ -269,6 +318,13 @@
   }
   input[type="checkbox"] {
     margin-right: 0.3rem;
+  }
+  em {
+    color: var(--lightgrey);
+    font-size: 0.9rem;
+  }
+  em.set {
+    color: inherit;
   }
   .overlay {
     position: fixed;
