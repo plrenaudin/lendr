@@ -1,7 +1,8 @@
 import t from "../../src/utils/wording";
 
 describe("Adds a new entry and lends it", () => {
-  it("Adds the entry", () => {
+  it("Adds the entry and lends it", () => {
+    cy.log("Adding new entry");
     cy.get(".main-input input").type("9782215087229");
     cy.get("li.add").click();
     cy.get(".card.description").contains("La forêt - Emilie Beaumont, Nathalie Bélineau");
@@ -11,9 +12,8 @@ describe("Adds a new entry and lends it", () => {
     cy.get("button")
       .contains(t("action.addAction"))
       .click();
-  });
 
-  it("Lends it", () => {
+    cy.log("Lending entry");
     cy.get(".main-input input").type("9782215087229");
     cy.get("ul.suggestions li:first").click();
     cy.get("button")
@@ -33,9 +33,9 @@ describe("Adds a new entry and lends it", () => {
     cy.get(".main-input input").type("9782215087229");
     cy.get("ul.suggestions li:first").click();
     cy.get(".available").contains("(0/1)");
-  });
 
-  it("Should not be possible to lend it", () => {
+    cy.log("Should not be possible to lend it");
+
     cy.get(".button-group .button.upload").should("not.exist");
     cy.get(".button-group .button.download").should("not.exist");
     cy.get(".cancel").click();
@@ -76,7 +76,8 @@ describe("Returns the item", () => {
     cy.get(".cancel").click();
   });
 
-  it("should not appear in the loan section", () => {
+  it("should appear in the loan section correctly", () => {
+    cy.log("should not appear in the loan section");
     cy.get("button")
       .contains(t("inventory.button"))
       .click();
@@ -84,9 +85,8 @@ describe("Returns the item", () => {
       .contains(t("inventory.tab.loans"))
       .click();
     cy.get("table tr").contains(t("inventory.noResults"));
-  });
 
-  it("should appear in the not active loan section", () => {
+    cy.log("should appear in the not active loan section");
     cy.get("label")
       .contains(t("inventory.activeOnly"))
       .click();
