@@ -93,6 +93,9 @@ store.on("state", ({ changed, current }) => {
   }
 });
 //computed
+store.compute("loaners", ["loans"], loans =>
+  loans.map(loan => loan.name).filter((i, index, arr) => arr.indexOf(i) === index)
+);
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
 store.compute("isReturnable", ["currentId", "loans"], (currentId, loans = []) =>
   loans.find(i => i.id === currentId && !i.returned)
