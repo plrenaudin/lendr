@@ -41,13 +41,14 @@ describe("Adds a new entry and lends it", () => {
     cy.get(".cancel").click();
   });
 
-  it("Should show the loan in the loan tab", () => {
+  it("Should show the loan in the loan tab and have a loaner in the filter", () => {
     cy.get("button")
       .contains(t("inventory.button"))
       .click();
     cy.get("nav li")
       .contains(t("inventory.tab.loans"))
       .click();
+    cy.get(".loaner-filter option").should("contain", "Martine");
     cy.get("table tr td:nth-of-type(2)").contains("Martine");
     cy.get(".cancel").click();
   });
