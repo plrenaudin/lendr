@@ -94,7 +94,10 @@ store.on("state", ({ changed, current }) => {
 });
 //computed
 store.compute("loaners", ["loans"], loans =>
-  loans.map(loan => loan.name).filter((i, index, arr) => arr.indexOf(i) === index)
+  loans
+    .map(loan => loan.name)
+    .filter((i, index, arr) => arr.indexOf(i) === index)
+    .sort()
 );
 store.compute("exists", ["currentId", "items"], (currentId, items) => items.some(i => i.id === currentId));
 store.compute("isReturnable", ["currentId", "loans"], (currentId, loans = []) =>
