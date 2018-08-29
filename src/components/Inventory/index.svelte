@@ -59,17 +59,6 @@
 	</table>
 	{:else}
   <div class="controls">
-    {#if $loaners}
-      <label class="loaner-filter">
-        <Icon name="user" />
-        <select bind:value="selectedLoaner">
-          <option value="">{t("inventory.loaner")}</option>
-          {#each $loaners as loaner}
-            <option value={loaner}>{loaner}</option>
-          {/each}
-        </select>
-      </label>
-    {/if}
     <label class="date-filter">
       <Icon name="calendar" />
       <input type="date" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" max={shortFormatDate(new Date())} bind:value="selectedDate" />
@@ -80,6 +69,15 @@
           {t("inventory.noDate")}
         {/if}
       </em>
+    </label>
+    <label class="loaner-filter">
+      <Icon name="user" />
+      <select bind:value="selectedLoaner">
+        <option value="">{t("inventory.loaner")}</option>
+        {#each $loaners as loaner}
+          <option value={loaner}>{loaner}</option>
+        {/each}
+      </select>
     </label>
     <label class="active-filter">
       <input type="checkbox" bind:checked="onlyActiveLoans" />{t("inventory.activeOnly")}
@@ -267,6 +265,8 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    border-bottom: 1px solid var(--lightgrey);
+    padding: 0.5rem 0;
   }
   .controls select {
     width: 6rem;
