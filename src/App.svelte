@@ -63,7 +63,6 @@
   import { fly } from "svelte-transitions";
   import t from "./utils/wording";
   import toast from "./utils/toast";
-  import data from "./utils/dataGenerator";
 
   export default {
     components: {
