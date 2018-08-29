@@ -5,7 +5,7 @@
         <div class="overlay" on:click="set({name:''})"></div>
         <ul class="suggestions" style="transform: translateY({suggestionsTranslate}rem)">
           {#each suggestions as suggestion}
-            <li on:click="select(suggestion)">{suggestion}</li>
+            <li on:click="select(suggestion)">{@html highlight(suggestion)}</li>
             {/each}
         </ul>
       {/if}
@@ -30,7 +30,8 @@
       disabled: ({ id, name }) => !id || !name,
       suggestions: ({ $loaners, name }) =>
         name.length && $loaners.filter(i => includes(name, i) && i !== name).slice(0, 8),
-      suggestionsTranslate: ({ suggestions }) => -2.1 * Math.min(5, suggestions.length) - 3.1
+      suggestionsTranslate: ({ suggestions }) => -2.1 * Math.min(5, suggestions.length) - 3.1,
+      highlight: ({ name }) => string => string.replace(new RegExp(`(${name})`, "i"), "<b>$1</b>")
     },
     methods: {
       lendItem() {
@@ -76,5 +77,8 @@
   }
   ul.suggestions li {
     padding: 0.3rem 0.5rem;
+  }
+  ul.suggestions li :global(b) {
+    color: var(--linkColor);
   }
 </style>
