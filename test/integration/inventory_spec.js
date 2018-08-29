@@ -23,8 +23,12 @@ describe("Adds a new entry", () => {
     cy.get("button")
       .contains(t("inventory.button"))
       .click();
-    cy.get(".inventory-container table tbody td").contains("9782215087229");
-    cy.get(".cancel").click();
+    cy.log("clicking on inventory line selects the item");
+    cy.get(".inventory-container table tbody td")
+      .contains("9782215087229")
+      .click();
+    cy.get(".card.description").contains("La forêt - Emilie Beaumont, Nathalie Bélineau");
+    cy.contains(".cancel", t("action.cancel")).click();
   });
 });
 
