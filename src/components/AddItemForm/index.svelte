@@ -35,6 +35,7 @@
       this.refs.input && this.refs.input.focus();
       const found = this.store.get().items.find(i => i.id === this.get().id);
       this.set({ description: (found && found.description) || this.store.get().isbnResult || "" });
+      found && this.addItem();
     }
   };
 </script>

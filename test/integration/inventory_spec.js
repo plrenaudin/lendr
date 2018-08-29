@@ -40,9 +40,6 @@ describe("Adds an existing entry", () => {
     cy.get("button")
       .contains(t("action.add"))
       .click();
-    cy.get("button")
-      .contains(t("action.addOne"))
-      .click();
     cy.get(".main-input input").type("9782215087229");
     cy.get("ul.suggestions li:first").click();
     cy.get(".available").contains("(2/2)");
