@@ -156,6 +156,7 @@
     background-color: var(--descriptionColor);
     padding: 1rem;
     margin-top: 0;
+    word-wrap: break-word;
   }
   .content :global(.card.button-group) {
     padding: 1rem;

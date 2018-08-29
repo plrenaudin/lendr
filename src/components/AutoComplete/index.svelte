@@ -94,6 +94,7 @@
   ul li {
     padding: 0.5rem 0.3rem;
     border-top: 1px solid var(--lightgrey);
+    word-wrap: break-word;
   }
   ul li :global(b) {
     color: var(--linkColor);
