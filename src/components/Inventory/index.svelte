@@ -96,7 +96,7 @@
 		</thead>
 		<tbody>
 			{#each loans.filter(loanPredicate).slice(0,limit+1) as loan,index}
-			<tr>
+			<tr on:click="select(loan.id)">
 				<td>{loan.description || ''}</td>
 				<td>{loan.name}</td>
 				<td>{textFormatDate(loan.lent)}</td>
