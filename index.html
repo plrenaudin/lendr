@@ -69,9 +69,11 @@
   window["isUpdateAvailable"] = new Promise(function(resolve, reject) {
     // lazy way of disabling service workers while developing
     if ("serviceWorker" in navigator && location.hostname !== "localhost") {
+      // workaround for issue: https://github.com/mischnic/parcel-plugin-sw-cache/issues/13
+      var sw = "/service-worker.js";
       // register service worker file
       navigator.serviceWorker
-        .register("/service-worker.js")
+        .register(sw)
         .then(reg => {
           console.log("setting onupdate");
           reg.onupdatefound = () => {
